@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+body {
+  color: #3e3d3d;
+  background-color: rgb(255, 244, 244);
+}
+
+.custom-link {
+  @apply no-underline text-[#6100d0] hover:text-[#16A34A] hover:underline;
+}
+
+.cutom-button {
+  @apply bg-[#6100d0] border-2 text-white text-xs sm:text-lg font-semibold px-4 py-1 rounded  hover:bg-[#16A34A] hover:text-black;
+}
+
+.custom-heading {
+  @apply text-2xl md:text-3xl font-semibold text-[#2e0063] mb-3 mt-15 p-2 text-center;
+}
+
+.custom-card{
+  @apply border  border-[#7700ff2c] rounded-lg p-4 hover:shadow-lg transition;
+
+}
