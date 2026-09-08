@@ -1,10 +1,20 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import signupSchema from "./signupSchema";
 
 function Signup() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signupSchema),
+  });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
-        {/* Heading */}
+    <div className="min-h-screen flex items-center justify-center bg-gray-200">
+      <div className="w-full max-w-md bg-white px-8 py-5 rounded-2xl shadow-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
             Create your Tradix account
@@ -15,80 +25,94 @@ function Signup() {
         </div>
 
         {/* Signup Form */}
-        <form className="space-y-5">
-          {/* Full Name */}
+        <form
+          onSubmit={handleSubmit((data) => console.log(data))}
+          className="space-y-5"
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Full Name
-            </label>
             <input
+              id="name"
               type="text"
               placeholder="Enter your full name"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-purple-600"
+              {...register("fullName")}
+              className="w-full px-4 py-2 border text-lg border-gray-300 rounded-lg outline-none focus:border-purple-600"
             />
+            {errors.fullName && (
+              <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
+                {errors.fullName.message}
+              </p>
+            )}
           </div>
-
-          {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-purple-600"
+              {...register("email")}
+              className="w-full px-4 py-2 border text-lg border-gray-300 rounded-lg outline-none focus:border-purple-600"
             />
+            {errors.email && (
+              <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
+                {errors.email.message}
+              </p>
+            )}
           </div>
-
-          {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
             <input
               type="password"
               placeholder="Create a password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-purple-600"
+              {...register("password")}
+              className="w-full px-4 py-2 border text-lg border-gray-300 rounded-lg outline-none focus:border-purple-600"
             />
+            {errors.password && (
+              <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-
-          {/* Confirm Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Confirm Password
-            </label>
             <input
               type="password"
               placeholder="Confirm your password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-purple-600"
+              {...register("confirmPassword")}
+              className="w-full px-4 py-2 border text-lg border-gray-300 rounded-lg outline-none focus:border-purple-600"
             />
+            {errors.confirmPassword && (
+              <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
 
           {/* Terms */}
           <div className="flex items-start gap-2 text-sm text-gray-600">
-            <input type="checkbox" className="mt-1" />
+            <input
+              type="checkbox"
+              {...register("termsAccepted")}
+              className="mt-1"
+            />
             <p>
-              I agree to the{" "}
+              I agree to the
               <span className="text-purple-600 cursor-pointer">
                 Terms & Conditions
-              </span>{" "}
-              and{" "}
+              </span>
+              and
               <span className="text-purple-600 cursor-pointer">
                 Privacy Policy
               </span>
             </p>
           </div>
-
-          {/* Signup Button */}
+          {errors.termsAccepted && (
+              <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
+                {errors.termsAccepted.message}
+              </p>
+            )} 
           <button type="submit" className="w-full cutom-button transition">
             Create Account
           </button>
         </form>
-
-        {/* Login */}
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Already have an account?{" "}
-          <span className="text-purple-600 font-semibold cursor-pointer">
+        <p className="text-center text-lg text-gray-600 mt-6">
+          Already have an account?
+          <span className="text-purple-600 font-bold cursor-pointer">
             Login
           </span>
         </p>
