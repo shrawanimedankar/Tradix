@@ -7,15 +7,19 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/auth", authRoutes);
 
 const { HoldingsModel } = require("./model/Holdings");
 const { PositionsModel } = require("./model/Positions");
 const { OrdersModel } = require("./model/Orders");
 const { FundsModel } = require("./model/Funds");
+const {UserModel} = require("./model/User");
 
 const PORT = process.env.PORT || 8080;
 const dbUrl = process.env.MONGODB_URL;
