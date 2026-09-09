@@ -1,10 +1,21 @@
 const bcrypt = require("bcrypt");
 const { UserModel } = require("../model/User");
 const { sendResponse } = require("../utils/sendResponse");
+const { signupSchema, loginSchema } = require("../validation/auth");
 
 const signup = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { error, value } = signupSchema.validate(req.body);
+
+    if (error) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: error.details[0].message,
+      });
+    }
+
+    const { fullName, email, password } = value;
 
     const existingUser = await UserModel.findOne({ email });
 
@@ -47,7 +58,54 @@ const signup = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {};
+const login = async (req, res) => {
+  try {
+    const { error, value } = loginSchema.validate(req.body);
+    if (error) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: error.details[0].message,
+      });
+    }
+
+    const { email, password } = value;
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 401,
+        message: "Invalid email or password",
+      });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 401,
+        message: "Invalid email or password",
+      });
+    }
+    return sendResponse(res, {
+      success: true,
+      status_code: 200,
+      message: "Login successful",
+      data: {
+        fullName: user.fullName,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+
+    return sendResponse(res, {
+      success: false,
+      status_code: 500,
+      message: "Something went wrong",
+      error,
+    });
+  }
+};
 
 module.exports = {
   signup,
