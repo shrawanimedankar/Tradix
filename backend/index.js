@@ -32,6 +32,7 @@ async function main() {
   await mongoose.connect(dbUrl);
 }
 
+
 app.get("/allHoldings", async (req, res) => {
   try {
     const allHoldings = await HoldingsModel.find({});

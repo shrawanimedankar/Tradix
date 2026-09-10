@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { UserModel } = require("../model/User");
 const { sendResponse } = require("../utils/sendResponse");
 const { signupSchema, loginSchema } = require("../validation/auth");
@@ -86,6 +87,18 @@ const login = async (req, res) => {
         message: "Invalid email or password",
       });
     }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "5d",
+      },
+    );
+
     return sendResponse(res, {
       success: true,
       status_code: 200,
@@ -93,6 +106,7 @@ const login = async (req, res) => {
       data: {
         fullName: user.fullName,
         email: user.email,
+        token,
       },
     });
   } catch (error) {

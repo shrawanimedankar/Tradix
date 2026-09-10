@@ -12,11 +12,16 @@ const signupSchema = Joi.object({
     "any.required": "Email is required",
   }),
 
-  password: Joi.string().min(6).required().messages({
-    "string.empty": "Password is required",
-    "string.min": "Password must be at least 6 characters",
-    "any.required": "Password is required",
-  }),
+  password: Joi.string()
+    .min(6)
+    .required()
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/)
+    .messages({
+      "string.empty": "Password is required",
+      "string.min": "Password must be at least 6 characters",
+      "string.pattern.base":"Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character",
+      "any.required": "Password is required",
+    }),
 });
 
 const loginSchema = Joi.object({
