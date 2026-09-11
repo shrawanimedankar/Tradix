@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { UserModel } = require("../model/User");
 const { sendResponse } = require("../utils/sendResponse");
 const { signupSchema, loginSchema } = require("../validation/auth");
+const { FundsModel } = require("../model/Funds");
 
 const signup = async (req, res) => {
   try {
