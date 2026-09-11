@@ -8,12 +8,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const authRoutes = require("./routes/auth");
+const fundsRoutes = require("./routes/funds");
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", authRoutes);
+app.use("/funds", fundsRoutes);
 
 const { HoldingsModel } = require("./model/Holdings");
 const { PositionsModel } = require("./model/Positions");
