@@ -36,8 +36,12 @@ const signup = async (req, res) => {
       email,
       password: hashedPassword,
     });
-
     await newUser.save();
+
+    const newFunds = new FundsModel({
+      user: newUser._id,
+    });
+    await newFunds.save();
 
     return sendResponse(res, {
       success: true,

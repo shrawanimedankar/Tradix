@@ -18,8 +18,6 @@ app.use("/auth", authRoutes);
 const { HoldingsModel } = require("./model/Holdings");
 const { PositionsModel } = require("./model/Positions");
 const { OrdersModel } = require("./model/Orders");
-const { FundsModel } = require("./model/Funds");
-const {UserModel} = require("./model/User");
 
 const PORT = process.env.PORT || 8080;
 const dbUrl = process.env.MONGODB_URL;
@@ -31,7 +29,6 @@ main()
 async function main() {
   await mongoose.connect(dbUrl);
 }
-
 
 app.get("/allHoldings", async (req, res) => {
   try {
@@ -262,135 +259,6 @@ app.post("/newOrder", async (req, res) => {
       status_code: 200,
       message: "Order placed successfully",
       data: newOrder,
-    });
-  } catch (error) {
-    console.log(error);
-
-    return sendResponse(res, {
-      success: false,
-      status_code: 500,
-      message: "Something went wrong",
-      error: error,
-    });
-  }
-});
-
-app.get("/funds", async (req, res) => {
-  try {
-    let funds = await FundsModel.findOne();
-    if (!funds) {
-      funds = new FundsModel({
-        availableFunds: 100000,
-        usedFunds: 0,
-        openingBalance: 100000,
-        payin: 0,
-      });
-      await funds.save();
-    }
-    return sendResponse(res, {
-      success: true,
-      status_code: 200,
-      message: "Funds fetched successfully",
-      data: funds,
-    });
-  } catch (error) {
-    console.log(error);
-    return sendResponse(res, {
-      success: false,
-      status_code: 500,
-      message: "Something went wrong",
-      error: error,
-    });
-  }
-});
-
-app.post("/addFunds", async (req, res) => {
-  const { amount } = req.body;
-
-  try {
-    const funds = await FundsModel.findOne();
-    const addAmount = Number(amount);
-
-    if (!funds) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 404,
-        message: "Funds not found",
-      });
-    }
-
-    if (!addAmount || addAmount <= 0) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 400,
-        message: "Enter a valid amount",
-      });
-    }
-
-    funds.availableFunds += addAmount;
-    funds.payin += addAmount;
-
-    await funds.save();
-
-    return sendResponse(res, {
-      success: true,
-      status_code: 200,
-      message: "Funds added successfully",
-      data: funds,
-    });
-  } catch (error) {
-    console.log(error);
-
-    return sendResponse(res, {
-      success: false,
-      status_code: 500,
-      message: "Something went wrong",
-      error: error,
-    });
-  }
-});
-
-app.post("/withdrawFunds", async (req, res) => {
-  const { amount } = req.body;
-
-  try {
-    const funds = await FundsModel.findOne();
-    const withdrawAmount = Number(amount);
-
-    if (!funds) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 404,
-        message: "Funds not found",
-      });
-    }
-
-    if (!withdrawAmount || withdrawAmount <= 0) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 400,
-        message: "Enter a valid amount",
-      });
-    }
-
-    if (withdrawAmount > funds.availableFunds) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 400,
-        message: "Insufficient funds",
-      });
-    }
-
-    funds.availableFunds -= withdrawAmount;
-    funds.payin -= withdrawAmount;
-
-    await funds.save();
-
-    return sendResponse(res, {
-      success: true,
-      status_code: 200,
-      message: "Funds withdrawn successfully",
-      data: funds,
     });
   } catch (error) {
     console.log(error);
