@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { getAllHoldings } = require("../controllers/holdings");
+const { getHoldings } = require("../controllers/holdings");
+const authJWT = require("../middleware/authJWT");
 
-router.get("/allHoldings", getAllHoldings);
+router.get("/", authJWT, getHoldings);
 
 module.exports = router;

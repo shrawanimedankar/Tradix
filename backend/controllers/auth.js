@@ -43,6 +43,15 @@ const signup = async (req, res) => {
     });
     await newFunds.save();
 
+    const token = jwt.sign(
+      {
+        userId: newUser._id,
+        email: newUser.email,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "5d" },
+    );
+
     return sendResponse(res, {
       success: true,
       status_code: 201,
@@ -50,6 +59,7 @@ const signup = async (req, res) => {
       data: {
         fullName: newUser.fullName,
         email: newUser.email,
+         token,
       },
     });
   } catch (error) {

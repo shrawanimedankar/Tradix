@@ -9,6 +9,7 @@ import Pricing from "./LandingPage/Pricing/PricingPage.jsx";
 import Support from "./LandingPage/Support/SupportPage.jsx";
 import NotFound from "./LandingPage/NotFound.jsx";
 import ScrollToTop from "./LandingPage/ScrollToTop.jsx";
+import Login from "./LandingPage/Login/Login";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
   <Navbar/>
     <Routes>
       <Route path="/" element={<Home />}/>
+       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />}/>
       <Route path="/about" element={<About />}/>
       <Route path="/product" element={<Product />}/>

@@ -1,11 +1,12 @@
 // This middleware checks whether  user has a valid JWT token before allowing access to a protected route.
 const jwt = require("jsonwebtoken");
+const { sendResponse } = require("../utils/sendResponse");
 
-const authenticateJWT = (req, res, next) => {
+const authJWT = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    console.log("req ---", req.headers);
-    console.log("req body ---", req.body);
+    // console.log("req ---", req.headers);
+    // console.log("req body ---", req.body);
     if (!authHeader) {
       return sendResponse(res, {
         success: false,
@@ -43,4 +44,4 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-module.exports = authenticateJWT;
+module.exports = authJWT;

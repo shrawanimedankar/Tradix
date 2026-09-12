@@ -1,9 +1,9 @@
 const { PositionsModel } = require("../model/Positions");
 const { sendResponse } = require("../utils/sendResponse");
 
-const getAllPositions = async (req, res) => {
+const getPositions = async (req, res) => {
   try {
-    const allPositions = await PositionsModel.find({});
+    const allPositions = await PositionsModel.find({ user: req.user.userId });
 
     return sendResponse(res, {
       success: true,
@@ -24,5 +24,5 @@ const getAllPositions = async (req, res) => {
 };
 
 module.exports = {
-  getAllPositions,
+  getPositions,
 };

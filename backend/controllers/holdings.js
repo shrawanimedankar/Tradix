@@ -1,9 +1,11 @@
 const { HoldingsModel } = require("../model/Holdings");
 const { sendResponse } = require("../utils/sendResponse");
 
-const getAllHoldings = async (req, res) => {
+const getHoldings = async (req, res) => {
   try {
-    const allHoldings = await HoldingsModel.find({});
+    const allHoldings = await HoldingsModel.find({
+      user: req.user.userId,
+    });
 
     return sendResponse(res, {
       success: true,
@@ -11,10 +13,8 @@ const getAllHoldings = async (req, res) => {
       message: "Holdings fetched successfully",
       data: allHoldings,
     });
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error);
-
     return sendResponse(res, {
       success: false,
       status_code: 500,
@@ -25,5 +25,5 @@ const getAllHoldings = async (req, res) => {
 };
 
 module.exports = {
-  getAllHoldings,
+  getHoldings,
 };

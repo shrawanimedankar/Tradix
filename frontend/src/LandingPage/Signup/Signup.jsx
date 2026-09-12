@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import signupSchema from "./signupSchema";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const {
@@ -11,6 +12,29 @@ function Signup() {
   } = useForm({
     resolver: zodResolver(signupSchema),
   });
+
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: data.fullName,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+      if (result.success) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
@@ -25,10 +49,7 @@ function Signup() {
         </div>
 
         {/* Signup Form */}
-        <form
-          onSubmit={handleSubmit((data) => console.log(data))}
-          className="space-y-5"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
             <input
               id="name"
@@ -102,10 +123,10 @@ function Signup() {
             </p>
           </div>
           {errors.termsAccepted && (
-              <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
-                {errors.termsAccepted.message}
-              </p>
-            )} 
+            <p className="text-red-700 bg-red-100 text-sm mt-1 px-2">
+              {errors.termsAccepted.message}
+            </p>
+          )}
           <button type="submit" className="w-full cutom-button transition">
             Create Account
           </button>

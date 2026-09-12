@@ -6,7 +6,7 @@ const { sendResponse } = require("../utils/sendResponse");
 
 const getAllOrders = async (req, res) => {
   try {
-    const allOrders = await OrdersModel.find({});
+    const allOrders = await OrdersModel.find({ user: req.user.userId });
 
     return sendResponse(res, {
       success: true,
@@ -30,7 +30,9 @@ const newOrder = async (req, res) => {
   const { name, qty, price, mode, product } = req.body;
 
   try {
-    const funds = await FundsModel.findOne();
+    const funds = await FundsModel.findOne({
+      user: req.user.userId,
+    });
     const totalAmount = price * qty;
 
     // BUY
@@ -49,7 +51,10 @@ const newOrder = async (req, res) => {
 
       // CNC → HOLDINGS
       if (product === "CNC") {
-        const holding = await HoldingsModel.findOne({ name });
+        const holding = await HoldingsModel.findOne({
+          user: req.user.userId,
+          name,
+        });
 
         if (holding) {
           const totalCost = holding.avg * holding.qty + price * qty;
@@ -62,6 +67,7 @@ const newOrder = async (req, res) => {
           await holding.save();
         } else {
           const newHolding = new HoldingsModel({
+            user: req.user.userId,
             name,
             qty,
             avg: price,
@@ -76,7 +82,10 @@ const newOrder = async (req, res) => {
 
       // MIS → POSITIONS
       if (product === "MIS") {
-        const position = await PositionsModel.findOne({ name });
+        const position = await PositionsModel.findOne({
+          user: req.user.userId,
+          name,
+        });
 
         if (position) {
           const totalCost = position.avg * position.qty + price * qty;
@@ -89,6 +98,7 @@ const newOrder = async (req, res) => {
           await position.save();
         } else {
           const newPosition = new PositionsModel({
+            user: req.user.userId,
             product: "MIS",
             name,
             qty,
@@ -108,7 +118,10 @@ const newOrder = async (req, res) => {
     if (mode === "SELL") {
       // CNC → HOLDINGS
       if (product === "CNC") {
-        const holding = await HoldingsModel.findOne({ name });
+        const holding = await HoldingsModel.findOne({
+          user: req.user.userId,
+          name,
+        });
 
         if (!holding) {
           return sendResponse(res, {
@@ -129,7 +142,10 @@ const newOrder = async (req, res) => {
         holding.qty -= qty;
 
         if (holding.qty === 0) {
-          await HoldingsModel.deleteOne({ name });
+          await HoldingsModel.deleteOne({
+            user: req.user.userId,
+            name,
+          });
         } else {
           await holding.save();
         }
@@ -137,7 +153,10 @@ const newOrder = async (req, res) => {
 
       // MIS → POSITIONS
       if (product === "MIS") {
-        const position = await PositionsModel.findOne({ name });
+        const position = await PositionsModel.findOne({
+          user: req.user.userId,
+          name,
+        });
 
         if (!position) {
           return sendResponse(res, {
@@ -158,7 +177,10 @@ const newOrder = async (req, res) => {
         position.qty -= qty;
 
         if (position.qty === 0) {
-          await PositionsModel.deleteOne({ name });
+          await PositionsModel.deleteOne({
+            user: req.user.userId,
+            name,
+          });
         } else {
           await position.save();
         }
@@ -171,13 +193,13 @@ const newOrder = async (req, res) => {
     }
 
     const newOrder = new OrdersModel({
+      user: req.user.userId,
       name,
       qty,
       price,
       mode,
       product,
     });
-
     await newOrder.save();
 
     return sendResponse(res, {

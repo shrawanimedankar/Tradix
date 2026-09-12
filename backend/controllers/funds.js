@@ -4,7 +4,7 @@ const { sendResponse } = require("../utils/sendResponse");
 const getFunds = async (req, res) => {
   try {
     const funds = await FundsModel.findOne({
-      user: req.user.id,
+      user: req.user.userId,
     });
 
     if (!funds) {
@@ -21,9 +21,9 @@ const getFunds = async (req, res) => {
       message: "Funds fetched successfully",
       data: funds,
     });
-  } catch (error) {
+  } 
+  catch (error) {
     console.log(error);
-
     return sendResponse(res, {
       success: false,
       status_code: 500,
@@ -38,7 +38,7 @@ const addFunds = async (req, res) => {
 
   try {
     const funds = await FundsModel.findOne({
-      user: req.user.id,
+      user: req.user.userId,
     });
 
     if (!funds) {
@@ -68,9 +68,9 @@ const addFunds = async (req, res) => {
       message: "Funds added successfully",
       data: funds,
     });
-  } catch (error) {
+  } 
+  catch (error) {
     console.log(error);
-
     return sendResponse(res, {
       success: false,
       status_code: 500,
@@ -85,7 +85,7 @@ const withdrawFunds = async (req, res) => {
 
   try {
     const funds = await FundsModel.findOne({
-      user: req.user.id,
+      user: req.user.userId,
     });
 
     if (!funds) {
