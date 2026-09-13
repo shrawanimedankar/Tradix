@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import signupSchema from "./signupSchema";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate();
+  const [signupError, setSignupError] = useState("");
   const {
     register,
     handleSubmit,
@@ -12,8 +14,6 @@ function Signup() {
   } = useForm({
     resolver: zodResolver(signupSchema),
   });
-
-  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -28,8 +28,15 @@ function Signup() {
       });
       const result = await response.json();
       console.log(result);
+      if (!result.success) {
+        setSignupError(result.message);
+        return;
+      }
+
       if (result.success) {
-        navigate("/login");
+        localStorage.setItem("token", result.data.token);
+        localStorage.setItem("fullName", result.data.fullName);
+        window.location.href = `http://localhost:5174/?token=${result.data.token}`;
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +55,12 @@ function Signup() {
           </p>
         </div>
 
-        {/* Signup Form */}
+        {signupError && (
+          <p className="text-red-700 bg-red-100 text-sm mt-1 px-2 py-2 rounded">
+            {signupError}
+          </p>
+        )}
+        <br />
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
             <input
@@ -133,7 +145,10 @@ function Signup() {
         </form>
         <p className="text-center text-lg text-gray-600 mt-6">
           Already have an account?
-          <span className="text-purple-600 font-bold cursor-pointer">
+          <span
+            onClick={() => navigate("/login")}
+            className="text-purple-600 font-bold cursor-pointer"
+          >
             Login
           </span>
         </p>

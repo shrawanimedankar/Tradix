@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema from "./loginSchema";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
   const {
     register,
     handleSubmit,
@@ -12,8 +15,31 @@ function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (!result.success) {
+        setLoginError(result.message);
+        return;
+      }
+
+      if (result.success) {
+        localStorage.setItem("token", result.data.token);
+        localStorage.setItem("fullName", result.data.fullName);
+        window.location.href = `http://localhost:5174/?token=${result.data.token}`;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -28,7 +54,13 @@ function Login() {
             Login to continue your investing journey
           </p>
         </div>
-
+        
+        {loginError && (
+          <p className="text-red-700 bg-red-100 text-sm mt-1 px-2 py-2 rounded">
+            {loginError}
+          </p>
+        )}
+        <br />
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Email */}
           <div>
@@ -69,7 +101,10 @@ function Login() {
 
         <p className="text-center text-lg text-gray-600 mt-6">
           Don't have an account?{" "}
-          <span className="text-purple-600 font-bold cursor-pointer">
+          <span
+            onClick={() => navigate("/signup")}
+            className="text-purple-600 font-bold cursor-pointer"
+          >
             Sign up
           </span>
         </p>

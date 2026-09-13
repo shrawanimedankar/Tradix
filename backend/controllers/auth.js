@@ -59,7 +59,7 @@ const signup = async (req, res) => {
       data: {
         fullName: newUser.fullName,
         email: newUser.email,
-         token,
+        token,
       },
     });
   } catch (error) {
@@ -136,7 +136,43 @@ const login = async (req, res) => {
   }
 };
 
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.userId).select(
+      "fullName email",
+    );
+
+    if (!user) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 404,
+        message: "User not found",
+      });
+    }
+
+    return sendResponse(res, {
+      success: true,
+      status_code: 200,
+      message: "User fetched successfully",
+      data: {
+        fullName: user.fullName,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+
+    return sendResponse(res, {
+      success: false,
+      status_code: 500,
+      message: "Something went wrong",
+      error,
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
+  getCurrentUser,
 };

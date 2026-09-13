@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Menu = () => {
+const Menu = ({ user }) => {
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+
+  const fullName = user?.fullName || "User";
+  const initials = fullName
+    .split(" ")
+    .map((name) => name[0])
+    .join("")
+    .toUpperCase();
 
   const handleMenuClick = (index) => {
     setSelectedMenu(index);
@@ -11,6 +18,12 @@ const Menu = () => {
 
   const handleProfileClick = (index) => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("fullName");
+    window.location.href = "http://localhost:5173/";
   };
 
   const menuClass = "menu";
@@ -86,9 +99,15 @@ const Menu = () => {
         <hr />
 
         <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar">SM</div>
-          <p className="username">USERID</p>
+          <div className="avatar">{initials}</div>
+          <p className="username">{fullName}</p>
         </div>
+        {isProfileDropdownOpen && (
+          <div className="profile-dropdown">
+            <button onClick={handleLogout}>Logout</button>
+            <button>Profile</button>
+          </div>
+        )}
       </div>
     </div>
   );

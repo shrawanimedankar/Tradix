@@ -1,7 +1,7 @@
 import React from "react";
 import Menu from "./Menu";
 
-const TopBar = () => {
+const TopBar = ({ user }) => {
   return (
     <div className="topbar-container">
       <div className="indices-container">
@@ -16,7 +16,7 @@ const TopBar = () => {
           <p className="percent"></p>
         </div>
       </div>
-      <Menu />
+      <Menu user={user} />
     </div>
   );
 };
