@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Menu = ({ user }) => {
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const fullName = user?.fullName || "User";
   const initials = fullName
@@ -16,7 +32,7 @@ const Menu = ({ user }) => {
     setSelectedMenu(index);
   };
 
-  const handleProfileClick = (index) => {
+  const handleProfileClick = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
@@ -98,16 +114,27 @@ const Menu = ({ user }) => {
 
         <hr />
 
-        <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar">{initials}</div>
-          <p className="username">{fullName}</p>
-        </div>
-        {isProfileDropdownOpen && (
-          <div className="profile-dropdown">
-            <button onClick={handleLogout}>Logout</button>
-            <button>Profile</button>
+        <div ref={profileRef} className="relative ml-5">
+          <div className="profile" onClick={handleProfileClick}>
+            <div className="avatar">{initials}</div>
+            <p className="username">{fullName}</p>
           </div>
-        )}
+
+          {isProfileDropdownOpen && (
+            <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
+              <button className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+                Profile
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

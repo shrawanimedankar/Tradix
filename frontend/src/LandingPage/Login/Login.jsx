@@ -54,7 +54,7 @@ function Login() {
             Login to continue your investing journey
           </p>
         </div>
-        
+
         {loginError && (
           <p className="text-red-700 bg-red-100 text-sm mt-1 px-2 py-2 rounded">
             {loginError}
