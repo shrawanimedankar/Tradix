@@ -3,14 +3,14 @@ import { Route, Routes } from "react-router-dom";
 
 import Funds from "./Funds";
 import Holdings from "./Holdings";
-
 import Orders from "./Orders";
 import Positions from "./Positions";
 import Summary from "./Summary";
 import WatchList from "./WatchList";
+import Profile from "./Profile";
 import { GeneralContextProvider } from "./GeneralContext";
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
   return (
     <div className="dashboard-container">
       <GeneralContextProvider>
@@ -22,6 +22,7 @@ const Dashboard = () => {
             <Route path="/holdings" element={<Holdings />} />
             <Route path="/positions" element={<Positions />} />
             <Route path="/funds" element={<Funds />} />
+           <Route path="/profile" element={<Profile user={user} />} />
           </Routes>
         </div>
       </GeneralContextProvider>

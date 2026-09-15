@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,6 +17,7 @@ function Login() {
   });
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
@@ -29,6 +31,7 @@ function Login() {
       console.log(result);
       if (!result.success) {
         setLoginError(result.message);
+        setIsLoading(false);
         return;
       }
 
@@ -39,6 +42,7 @@ function Login() {
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -94,13 +98,17 @@ function Login() {
             )}
           </div>
 
-          <button type="submit" className="w-full cutom-button transition">
-            Login
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full cutom-button transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-center text-lg text-gray-600 mt-6">
-          Don't have an account?{" "}
+          Don't have an account? &nbsp;
           <span
             onClick={() => navigate("/signup")}
             className="text-purple-600 font-bold cursor-pointer"

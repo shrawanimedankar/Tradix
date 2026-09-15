@@ -171,8 +171,126 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const { fullName, email } = req.body;
+
+    if (!fullName || !email) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Full name and email are required",
+      });
+    }
+
+    const existingUser = await UserModel.findOne({
+      email,
+      _id: { $ne: req.user.userId },
+    });
+
+    if (existingUser) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Email already registered",
+      });
+    }
+
+    const user = await UserModel.findByIdAndUpdate(
+      req.user.userId,
+      {
+        fullName,
+        email,
+      },
+      { new: true, runValidators: true },
+    ).select("fullName email");
+
+    if (!user) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 404,
+        message: "User not found",
+      });
+    }
+
+    return sendResponse(res, {
+      success: true,
+      status_code: 200,
+      message: "Profile updated successfully",
+      data: {
+        fullName: user.fullName,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+
+    return sendResponse(res, {
+      success: false,
+      status_code: 500,
+      message: "Something went wrong",
+      error,
+    });
+  }
+};
+
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Current password and new password are required",
+      });
+    }
+
+    const user = await UserModel.findById(req.user.userId);
+    if (!user) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 404,
+        message: "User not found",
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+    if (!isPasswordValid) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 401,
+        message: "Current password is incorrect",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return sendResponse(res, {
+      success: true,
+      status_code: 200,
+      message: "Password changed successfully",
+    });
+  } 
+  catch (error) {
+    console.log(error);
+    return sendResponse(res, {
+      success: false,
+      status_code: 500,
+      message: "Something went wrong",
+      error,
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
   getCurrentUser,
+  updateProfile,
+  changePassword,
 };

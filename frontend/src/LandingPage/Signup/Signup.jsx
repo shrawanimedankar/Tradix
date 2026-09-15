@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
   const navigate = useNavigate();
   const [signupError, setSignupError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,6 +17,8 @@ function Signup() {
   });
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
+
     try {
       const response = await fetch("http://localhost:8080/auth/signup", {
         method: "POST",
@@ -30,6 +33,7 @@ function Signup() {
       console.log(result);
       if (!result.success) {
         setSignupError(result.message);
+        setIsLoading(false);
         return;
       }
 
@@ -40,6 +44,7 @@ function Signup() {
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -124,11 +129,11 @@ function Signup() {
               className="mt-1"
             />
             <p>
-              I agree to the
+              I agree to the &nbsp;
               <span className="text-purple-600 cursor-pointer">
-                Terms & Conditions
+                Terms & Conditions &nbsp;
               </span>
-              and
+              and &nbsp;
               <span className="text-purple-600 cursor-pointer">
                 Privacy Policy
               </span>
@@ -139,12 +144,16 @@ function Signup() {
               {errors.termsAccepted.message}
             </p>
           )}
-          <button type="submit" className="w-full cutom-button transition">
-            Create Account
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full cutom-button transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Creating account..." : "Create Account"}
           </button>
         </form>
         <p className="text-center text-lg text-gray-600 mt-6">
-          Already have an account?
+          Already have an account? &nbsp;
           <span
             onClick={() => navigate("/login")}
             className="text-purple-600 font-bold cursor-pointer"

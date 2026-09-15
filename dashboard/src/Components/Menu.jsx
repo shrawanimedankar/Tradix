@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Menu = ({ user }) => {
+  const navigate = useNavigate();
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
@@ -122,7 +123,13 @@ const Menu = ({ user }) => {
 
           {isProfileDropdownOpen && (
             <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
-              <button className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+              <button
+                onClick={() => {
+                  setIsProfileDropdownOpen(false);
+                  navigate("/profile");
+                }}
+                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+              >
                 Profile
               </button>
 
