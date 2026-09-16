@@ -108,7 +108,7 @@ function Login() {
         </form>
 
         <p className="text-center text-lg text-gray-600 mt-6">
-          Don't have an account? &nbsp;
+          Don't have an account? {" "}
           <span
             onClick={() => navigate("/signup")}
             className="text-purple-600 font-bold cursor-pointer"

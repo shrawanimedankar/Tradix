@@ -11,6 +11,7 @@ const holdingsRoutes = require("./routes/holdings");
 const positionsRoutes = require("./routes/positions");
 const ordersRoutes = require("./routes/orders");
 const fundsRoutes = require("./routes/funds");
+const watchlistRoutes = require("./routes/watchlist");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/holdings", holdingsRoutes);
 app.use("/positions", positionsRoutes);
 app.use("/orders", ordersRoutes);
 app.use("/funds", fundsRoutes);
+app.use("/watchlist", watchlistRoutes);
 
 const PORT = process.env.PORT || 8080;
 const dbUrl = process.env.MONGODB_URL;

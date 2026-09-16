@@ -14,7 +14,7 @@ function Hero() {
         </h3>
 
         <p className="mt-4 mb-10">
-          Explore our&nbsp;
+          Explore our{" "}
           <Link to="" className="text-[#6100d0] hover:text-[#16A34A] hover:underline ">
             
             investment offerings

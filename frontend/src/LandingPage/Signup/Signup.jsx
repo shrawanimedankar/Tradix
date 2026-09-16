@@ -129,11 +129,11 @@ function Signup() {
               className="mt-1"
             />
             <p>
-              I agree to the &nbsp;
+              I agree to the {" "}
               <span className="text-purple-600 cursor-pointer">
-                Terms & Conditions &nbsp;
+                Terms & Conditions {" "}
               </span>
-              and &nbsp;
+              and {" "}
               <span className="text-purple-600 cursor-pointer">
                 Privacy Policy
               </span>
@@ -153,7 +153,7 @@ function Signup() {
           </button>
         </form>
         <p className="text-center text-lg text-gray-600 mt-6">
-          Already have an account? &nbsp;
+          Already have an account? {" "}
           <span
             onClick={() => navigate("/login")}
             className="text-purple-600 font-bold cursor-pointer"
