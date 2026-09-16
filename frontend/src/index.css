@@ -10,7 +10,7 @@ body {
 }
 
 .cutom-button {
-  @apply bg-[#6100d0] border-2 text-white text-xs sm:text-lg font-semibold px-4 py-1 rounded  hover:bg-[#16A34A] hover:text-black;
+  @apply bg-[#6100d0] border-2 text-white text-xs sm:text-base font-semibold px-3 py-1 rounded  hover:bg-[#16A34A] hover:text-black;
 }
 
 .custom-heading {

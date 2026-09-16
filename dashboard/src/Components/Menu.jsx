@@ -25,6 +25,7 @@ const Menu = ({ user }) => {
   }, []);
 
   const fullName = user?.fullName || "User";
+  const displayName = fullName.split(" ")[0] + " " + (fullName.split(" ")[1]?.[0] || "");
 
   const initials = fullName
     .split(" ")
@@ -147,8 +148,8 @@ const Menu = ({ user }) => {
               {initials}
             </div>
 
-            <p className="text-[0.8rem] font-medium hover:text-[rgb(255,0,0)]">
-              {fullName}
+            <p className="text-[0.7rem] font-medium hover:text-[rgb(255,0,0)]">
+              {displayName}
             </p>
           </div>
 
@@ -188,8 +189,8 @@ const Menu = ({ user }) => {
               {initials}
             </div>
 
-            <p className="hidden sm:block text-[0.75rem] font-medium">
-              {fullName}
+            <p className="hidden sm:block text-[0.85rem] font-medium">
+              {displayName}
             </p>
           </div>
 

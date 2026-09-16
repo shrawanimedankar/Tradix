@@ -7,15 +7,22 @@ const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [product, setProduct] = useState("CNC");
   const [error, setError] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const handleBuyClick = async () => {
+  const handleBuyClick = () => {
+    setError("");
+
+    if (stockQuantity <= 0) {
+      setError("Quantity must be a whole number greater than 0");
+      return;
+    }
+
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmBuy = async () => {
     try {
       setError("");
-
-      if (stockQuantity <= 0) {
-        setError("Quantity must be a whole number greater than 0");
-        return;
-      }
 
       const token = localStorage.getItem("token");
 
@@ -35,9 +42,11 @@ const BuyActionWindow = ({ uid }) => {
         },
       );
 
+      setShowConfirmation(false);
       context.closeBuyWindow();
       context.triggerRefresh();
     } catch (error) {
+      setShowConfirmation(false);
       setError(error.response?.data?.message || "Something went wrong");
     }
   };
@@ -48,13 +57,12 @@ const BuyActionWindow = ({ uid }) => {
 
   return (
     <div
-      className="w-[92%] xs:w-[85%] sm:w-[70%] md:w-[50%] lg:w-[30%] h-auto min-h-[25%] max-h-[80vh] bg-[rgb(153,152,152)] absolute bottom-0 left-1/2 -translate-x-1/2 cursor-move box-border z-[100] rounded-[4px] border border-[rgb(238,238,238)] mb-[1rem] sm:mb-[3rem] lg:mb-[5rem] text-white pb-[2rem] sm:pb-[3rem] overflow-y-auto"
+      className="w-[82%] sm:w-[60%] md:w-[40%] lg:w-[30%] h-auto min-h-[40%] max-h-[60vh] bg-[rgb(153,152,152)] absolute bottom-0 left-1/2 -translate-x-1/2 cursor-move box-border z-[100] rounded-[4px] border border-[rgb(238,238,238)] mb-[1rem] sm:mb-[3rem] lg:mb-[5rem] text-white pb-[2rem] sm:pb-[3rem] overflow-y-auto"
       id="buy-window"
       draggable="true"
     >
       <div className="p-[15px] sm:p-[25px] md:p-[30px_26px] bg-black pb-[20px] sm:pb-[30px]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-[12px] sm:gap-0 mt-[16px] mb-[16px]">
-
           <fieldset className="w-full sm:w-auto max-w-none sm:max-w-[120px] box-border border-[0.7px] border-[#ddd] mr-0 sm:mr-[8px]">
             <legend className="ml-[10px] text-[0.8rem] px-[4px]">
               Product
@@ -63,18 +71,15 @@ const BuyActionWindow = ({ uid }) => {
             <select
               value={product}
               onChange={(e) => setProduct(e.target.value)}
-              className="w-full sm:w-auto min-h-[35px] px-[8px] box-border"
+              className="w-full sm:w-auto min-h-[35px]  px-1 mx-2 box-border"
             >
               <option value="CNC">CNC</option>
               <option value="MIS">MIS</option>
             </select>
           </fieldset>
 
-          <fieldset className="w-full sm:w-auto max-w-none sm:max-w-[120px] box-border border-[0.7px] border-[#ddd] mr-0 sm:mr-[8px]">
-            <legend className="ml-[10px] text-[0.8rem] px-[4px]">
-              Qty.
-            </legend>
-
+          <fieldset className="w-full sm:w-auto max-w-none sm:max-w-[120px] box-border border-[0.7px] border-[#ddd] mr-0 sm:mr-[2px]">
+            <legend className="ml-3 text-[0.8rem] px-[4px]">Qty.</legend>
             <input
               type="number"
               name="qty"
@@ -89,7 +94,7 @@ const BuyActionWindow = ({ uid }) => {
                 }
               }}
               value={stockQuantity}
-              className="w-full sm:w-auto border-none mr-[8px] max-w-[130px] min-h-[35px] py-0 px-[12px] box-border text-[1.1rem] focus:outline-none disabled:cursor-not-allowed disabled:bg-transparent"
+              className="w-full sm:w-auto border-none mr-[8px] max-w-[60px] min-h-[35px] py-0 px-[12px] box-border text-[1.1rem] focus:outline-none disabled:cursor-not-allowed disabled:bg-transparent"
             />
           </fieldset>
 
@@ -107,18 +112,14 @@ const BuyActionWindow = ({ uid }) => {
               className="w-full sm:w-auto border-none mr-[8px] max-w-[130px] min-h-[35px] py-0 px-[12px] box-border text-[1.1rem] focus:outline-none"
             />
           </fieldset>
-
         </div>
       </div>
 
       {error && (
-        <p className="text-red-700 bg-red-100 text-sm mt-1 p-2">
-          {error}
-        </p>
+        <p className="text-red-700 bg-red-100 text-sm mt-1 p-2">{error}</p>
       )}
 
       <div className="mt-4 w-full box-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-[15px] relative top-[5%] sm:top-[10%] py-0 px-[15px] sm:px-[20px]">
-
         <span className="text-[0.9rem] text-[#090909]">
           Margin required ₹
           {stockQuantity
@@ -126,23 +127,70 @@ const BuyActionWindow = ({ uid }) => {
             : "0.00"}
         </span>
 
-        <div className="flex flex-wrap gap-[5px]">
+        <div className="flex flex-wrap gap-3">
           <button
-            className="text-decoration-none py-[10px] px-[20px] rounded-[2px] text-white bg-[#4e008d] hover:bg-[#8902f7]"
+            className="text-decoration-none p-2  text-white bg-[#4e008d] hover:bg-[#8902f7]"
             onClick={handleBuyClick}
           >
             Buy
           </button>
 
           <button
-            className="text-decoration-none py-[10px] px-[20px] rounded-[2px] bg-[#f2f0f0] text-black hover:bg-white"
+            className="text-decoration-none p-2  bg-[#f2f0f0] text-black hover:bg-white"
             onClick={handleCancelClick}
           >
             Cancel
           </button>
         </div>
-
       </div>
+
+      {showConfirmation && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[200]">
+          <div className="bg-white text-black w-[90%] sm:w-[350px]  p-3">
+            <h3 className="text-lg font-semibold mb-1">Confirm Buy</h3>
+            <hr className="mb-2" />
+
+            <p className="text-xs mb-1">
+              Stock: <span className="font-medium">{uid}</span>
+            </p>
+
+            <p className="text-xs mb-1">
+              Product: <span className="font-medium">{product}</span>
+            </p>
+
+            <p className="text-xs mb-1">
+              Quantity: <span className="font-medium">{stockQuantity}</span>
+            </p>
+
+            <p className="text-xs mb-2">
+              Price:{" "}
+              <span className="font-medium">
+                ₹{context.stockPrice.toFixed(2)}
+              </span>
+            </p>
+
+            <p className="text-xs font-semibold mb-2">
+              Total: ₹{(context.stockPrice * stockQuantity).toFixed(2)}
+            </p>
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowConfirmation(false)}
+                className="p-2 text-xs  bg-gray-200 text-black"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleConfirmBuy}
+                className="p-2 text-xs  bg-[#4e008d] text-white"
+              >
+                Confirm Buy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

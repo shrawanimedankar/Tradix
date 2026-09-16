@@ -10,7 +10,7 @@ function Hero() {
           className="w-full h-full object-cover"
         />
         <div className="absolute top-1 left-1 sm:top-4 sm:left-2 md:top-6 md:left-4 lg:top-8 lg:left-6">
-          <h1 className="text-xs sm:text-base md:text-2xl font-bold bg-white/80 px-2 w-fit text-black">
+          <h1 className="text-xs sm:text-sm md:text-xl font-bold bg-white/80 px-2 w-fit text-black">
             Your world of trading & investing
           </h1>
 

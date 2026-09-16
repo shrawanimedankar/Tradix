@@ -1,28 +1,45 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import GeneralContext from "./GeneralContext";
 import { Tooltip } from "@mui/material";
+import { watchlist as availableStocks } from "../data/data";
 
 import {
   BarChartOutlined,
   KeyboardArrowDown,
   KeyboardArrowUp,
-  MoreHoriz,
+  Delete,
 } from "@mui/icons-material";
 
-import { watchlist } from "../data/data";
 import { DoughnutChart } from "./DoughnutChart";
-
-const labels = watchlist.map((subArray) => subArray["name"]);
 
 const WatchList = () => {
   const [search, setSearch] = useState("");
+  const [userWatchlist, setUserWatchlist] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:8080/watchlist", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUserWatchlist(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const data = {
-    labels,
+    labels: userWatchlist.map((stock) => stock.name),
     datasets: [
       {
         label: "Price",
-        data: watchlist.map((stock) => stock.price),
+        data: userWatchlist.map((stock) => stock.price),
         backgroundColor: [
           "rgb(255, 99, 132)",
           "rgb(54, 162, 235)",
@@ -44,9 +61,59 @@ const WatchList = () => {
     ],
   };
 
-  const filteredWatchlist = watchlist.filter((stock) =>
+  const filteredWatchlist = userWatchlist.filter((stock) =>
     stock.name.toLowerCase().includes(search.toLowerCase()),
   );
+
+  const filteredAvailableStocks = availableStocks.filter((stock) =>
+    stock.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const handleAddStock = (stock) => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .post(
+        "http://localhost:8080/watchlist/add",
+        {
+          name: stock.name,
+          price: stock.price,
+          isDown: stock.isDown,
+          percent: stock.percent,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        setUserWatchlist((prev) => [...prev, res.data.data]);
+        setSearch("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleRemoveStock = (stockName) => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .delete(`http://localhost:8080/watchlist/remove/${stockName}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setUserWatchlist((prev) =>
+          prev.filter((stock) => stock.name !== stockName),
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="w-full lg:basis-[32%] lg:w-auto lg:h-full box-border overflow-y-auto overflow-x-hidden relative shrink-0">
@@ -70,8 +137,46 @@ const WatchList = () => {
       {/* Watchlist */}
       <ul className="list-none pb-[20px] m-0">
         {filteredWatchlist.map((stock, index) => {
-          return <WatchListItem stock={stock} key={index} />;
+          return (
+            <WatchListItem
+              stock={stock}
+              key={index}
+              onRemove={handleRemoveStock}
+            />
+          );
         })}
+
+        {search &&
+          filteredAvailableStocks
+            .filter(
+              (stock) =>
+                !userWatchlist.some(
+                  (userStock) => userStock.name === stock.name,
+                ),
+            )
+            .map((stock) => (
+              <li
+                key={stock.name}
+                className="border-b-[0.8px] border-b-[rgba(98,97,97,0.225)] py-[12px] px-[14px] flex items-center justify-between"
+              >
+                <div>
+                  <p className="text-[#373737] font-bold text-[0.8rem]">
+                    {stock.name}
+                  </p>
+
+                  <span className="text-[0.75rem] text-[#8d8d8d]">
+                    ₹{stock.price}
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => handleAddStock(stock)}
+                  className="bg-[#4e008d] text-white text-[0.75rem] px-3 py-2 rounded-[4px] cursor-pointer"
+                >
+                  Add
+                </button>
+              </li>
+            ))}
       </ul>
 
       {/* Chart */}
@@ -86,7 +191,7 @@ const WatchList = () => {
 
 export default WatchList;
 
-const WatchListItem = ({ stock }) => {
+const WatchListItem = ({ stock, onRemove }) => {
   const [showWatchlistActions, setShowWatchlistActions] = useState(false);
 
   const handleMouseEnter = () => {
@@ -137,13 +242,17 @@ const WatchListItem = ({ stock }) => {
       </div>
 
       {showWatchlistActions && (
-        <WatchListActions uid={stock.name} price={stock.price} />
+        <WatchListActions
+          uid={stock.name}
+          price={stock.price}
+          onRemove={onRemove}
+        />
       )}
     </li>
   );
 };
 
-const WatchListActions = ({ uid, price }) => {
+const WatchListActions = ({ uid, price, onRemove }) => {
   const generalContext = useContext(GeneralContext);
 
   const handleBuyClick = (e) => {
@@ -186,12 +295,16 @@ const WatchListActions = ({ uid, price }) => {
           </button>
         </Tooltip>
 
-        <Tooltip title="More" placement="top" arrow>
+        <Tooltip title="Remove" placement="top" arrow>
           <button
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove(uid);
+            }}
             className="w-[35px] h-[30px] sm:w-[40px] rounded-[4px] text-center mr-[5px] sm:mr-[8px] cursor-pointer bg-white border-[0.7px] border-[#9b9b9b] hover:bg-[rgb(212,212,212)]"
+            title="Remove from watchlist"
           >
-            <MoreHoriz className="scale-[0.7] text-[rgb(65,65,65)]" />
+            <Delete className="scale-[0.7] text-[rgb(65,65,65)]" />
           </button>
         </Tooltip>
       </span>

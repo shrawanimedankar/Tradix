@@ -25,7 +25,7 @@ const getWatchlist = async (req, res) => {
 
 const addToWatchlist = async (req, res) => {
   try {
-    const { name, price, isDown, percent, day } = req.body;
+    const { name, price, isDown, percent } = req.body;
 
     const existingStock = await WatchlistModel.findOne({
       user: req.user.userId,
@@ -46,7 +46,6 @@ const addToWatchlist = async (req, res) => {
       price,
       isDown,
       percent,
-      day,
     });
 
     return sendResponse(res, {

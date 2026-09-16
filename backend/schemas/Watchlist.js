@@ -25,12 +25,7 @@ const WatchlistSchema = new Schema({
   percent: {
     type: String,
     default: "0.00%",
-  },
-
-  day: {
-    type: String,
-    default: "0.00",
-  },
+  }, 
 });
 
 module.exports = { WatchlistSchema };

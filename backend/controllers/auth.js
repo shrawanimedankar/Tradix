@@ -4,6 +4,7 @@ const { UserModel } = require("../model/User");
 const { sendResponse } = require("../utils/sendResponse");
 const { signupSchema, loginSchema } = require("../validation/auth");
 const { FundsModel } = require("../model/Funds");
+const { WatchlistModel } = require("../model/Watchlist");
 
 const signup = async (req, res) => {
   try {
@@ -42,6 +43,46 @@ const signup = async (req, res) => {
       user: newUser._id,
     });
     await newFunds.save();
+
+    const defaultWatchlist = [
+      {
+        name: "INFY",
+        price: 1555.45,
+        isDown: true,
+        percent: "-1.60%",
+      },
+      {
+        name: "TCS",
+        price: 3194.8,
+        isDown: true,
+        percent: "-0.25%",
+      },
+      {
+        name: "WIPRO",
+        price: 577.75,
+        isDown: false,
+        percent: "0.32%",
+      },
+      {
+        name: "M&M",
+        price: 779.8,
+        isDown: true,
+        percent: "-0.01%",
+      },
+      {
+        name: "RELIANCE",
+        price: 2112.4,
+        isDown: false,
+        percent: "1.44%",
+      },
+    ];
+
+    await WatchlistModel.insertMany(
+      defaultWatchlist.map((stock) => ({
+        ...stock,
+        user: newUser._id,
+      })),
+    );
 
     const token = jwt.sign(
       {
@@ -275,8 +316,7 @@ const changePassword = async (req, res) => {
       status_code: 200,
       message: "Password changed successfully",
     });
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error);
     return sendResponse(res, {
       success: false,
