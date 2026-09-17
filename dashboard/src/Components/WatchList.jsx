@@ -34,7 +34,8 @@ const WatchList = () => {
       })
       .then((res) => {
         console.log("WATCHLIST RESPONSE:", res.data);
-        setUserWatchlist(res.data.data);
+        console.log("WATCHLIST DATA:", res.data.data);
+        setUserWatchlist(res.data.data || []);
       })
       .catch((err) => {
         console.log("WATCHLIST ERROR:", err);
