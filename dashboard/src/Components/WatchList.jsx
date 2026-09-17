@@ -15,11 +15,16 @@ import {
 import { DoughnutChart } from "./DoughnutChart";
 
 const WatchList = () => {
+  console.log("WATCHLIST COMPONENT RENDERED");
+
   const [search, setSearch] = useState("");
   const [userWatchlist, setUserWatchlist] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
+    console.log("WATCHLIST TOKEN:", token);
+    console.log("WATCHLIST API URL:", API_URL);
 
     axios
       .get(`${API_URL}/watchlist`, {
@@ -28,10 +33,11 @@ const WatchList = () => {
         },
       })
       .then((res) => {
+        console.log("WATCHLIST RESPONSE:", res.data);
         setUserWatchlist(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("WATCHLIST ERROR:", err);
       });
   }, []);
 
@@ -75,7 +81,7 @@ const WatchList = () => {
 
     axios
       .post(
-       `${API_URL}/watchlist/add`,
+        `${API_URL}/watchlist/add`,
         {
           name: stock.name,
           price: stock.price,

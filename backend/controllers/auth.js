@@ -76,6 +76,9 @@ const signup = async (req, res) => {
         percent: "1.44%",
       },
     ];
+    
+    console.log("Creating default watchlist for:", newUser._id);
+    console.log(defaultWatchlist);
 
     await WatchlistModel.insertMany(
       defaultWatchlist.map((stock) => ({
