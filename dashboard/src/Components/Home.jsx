@@ -33,7 +33,7 @@ const Home = () => {
           localStorage.removeItem("token");
           localStorage.removeItem("fullName");
 
-          window.location.href = "https://tradix-fo5h.onrender.com/login";
+          window.location.href = "https://tradix-platform.onrender.com/login";
         }
       } catch (error) {
         console.log(error);
@@ -43,7 +43,7 @@ const Home = () => {
     if (token) {
       getUser();
     } else {
-      window.location.href = "https://tradix-fo5h.onrender.com/login";
+      window.location.href = "https://tradix-platform.onrender.com/login";
     }
   }, []);
 
