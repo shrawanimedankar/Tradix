@@ -8,11 +8,20 @@ const Menu = ({ user }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const profileRef = useRef(null);
+  const desktopProfileRef = useRef(null);
+  const mobileProfileRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
+      const clickedInsideDesktop = desktopProfileRef.current?.contains(
+        event.target,
+      );
+
+      const clickedInsideMobile = mobileProfileRef.current?.contains(
+        event.target,
+      );
+
+      if (!clickedInsideDesktop && !clickedInsideMobile) {
         setIsProfileDropdownOpen(false);
       }
     };
@@ -25,7 +34,8 @@ const Menu = ({ user }) => {
   }, []);
 
   const fullName = user?.fullName || "User";
-  const displayName = fullName.split(" ")[0] + " " + (fullName.split(" ")[1]?.[0] || "");
+  const displayName =
+    fullName.split(" ")[0] + " " + (fullName.split(" ")[1]?.[0] || "");
 
   const initials = fullName
     .split(" ")
@@ -55,7 +65,6 @@ const Menu = ({ user }) => {
 
   return (
     <div className="basis-[68%] h-full min-w-0 py-[10px] px-[15px] md:px-[20px] box-border flex items-center justify-between">
-
       {/* Logo */}
       <img
         src="/media/images/logo.png"
@@ -66,7 +75,6 @@ const Menu = ({ user }) => {
       {/* Desktop Menu */}
       <div className="hidden lg:flex items-center justify-evenly">
         <ul className="list-none m-0 p-0 flex items-center">
-
           <li className="inline-block mr-[20px] xl:mr-[30px]">
             <Link className="no-underline" to="/">
               <p
@@ -83,9 +91,7 @@ const Menu = ({ user }) => {
             <Link className="no-underline" to="/orders">
               <p
                 className={
-                  location.pathname === "/orders"
-                    ? activeMenuClass
-                    : menuClass
+                  location.pathname === "/orders" ? activeMenuClass : menuClass
                 }
               >
                 Orders
@@ -125,9 +131,7 @@ const Menu = ({ user }) => {
             <Link className="no-underline" to="/funds">
               <p
                 className={
-                  location.pathname === "/funds"
-                    ? activeMenuClass
-                    : menuClass
+                  location.pathname === "/funds" ? activeMenuClass : menuClass
                 }
               >
                 Funds
@@ -139,7 +143,7 @@ const Menu = ({ user }) => {
         <hr className="border-l-[0.8px] border-l-[rgb(9,9,9)] h-[30px] mx-[5px]" />
 
         {/* Desktop Profile */}
-        <div ref={profileRef} className="relative ml-[15px]">
+        <div ref={desktopProfileRef} className="relative ml-[15px]">
           <div
             className="flex items-center justify-evenly hover:cursor-pointer"
             onClick={handleProfileClick}
@@ -178,9 +182,8 @@ const Menu = ({ user }) => {
 
       {/* Mobile / Tablet */}
       <div className="lg:hidden relative flex items-center">
-
         {/* Profile */}
-        <div ref={profileRef} className="relative mr-[10px] sm:mr-[15px]">
+        <div ref={mobileProfileRef} className="relative mr-[10px] sm:mr-[15px]">
           <div
             className="flex items-center cursor-pointer"
             onClick={handleProfileClick}
@@ -227,7 +230,6 @@ const Menu = ({ user }) => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="absolute right-0 top-[calc(100%+5px)] w-[180px] bg-white border border-gray-200 rounded-lg shadow-lg z-[100] py-[8px]">
-
             <Link
               to="/"
               onClick={closeMobileMenu}
@@ -242,9 +244,7 @@ const Menu = ({ user }) => {
               to="/orders"
               onClick={closeMobileMenu}
               className={`block px-[15px] py-[10px] no-underline ${
-                location.pathname === "/orders"
-                  ? "text-red-600"
-                  : "text-black"
+                location.pathname === "/orders" ? "text-red-600" : "text-black"
               }`}
             >
               Orders
@@ -278,14 +278,11 @@ const Menu = ({ user }) => {
               to="/funds"
               onClick={closeMobileMenu}
               className={`block px-[15px] py-[10px] no-underline ${
-                location.pathname === "/funds"
-                  ? "text-red-600"
-                  : "text-black"
+                location.pathname === "/funds" ? "text-red-600" : "text-black"
               }`}
             >
               Funds
             </Link>
-
           </div>
         )}
       </div>
