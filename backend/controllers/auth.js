@@ -76,16 +76,19 @@ const signup = async (req, res) => {
         percent: "1.44%",
       },
     ];
-    
-    console.log("Creating default watchlist for:", newUser._id);
-    console.log(defaultWatchlist);
 
-    await WatchlistModel.insertMany(
+    const createdWatchlist = await WatchlistModel.insertMany(
       defaultWatchlist.map((stock) => ({
         ...stock,
         user: newUser._id,
       })),
     );
+
+    console.log("DEFAULT WATCHLIST CREATED:", createdWatchlist.length);
+
+    if (createdWatchlist.length !== 5) {
+      throw new Error("Default watchlist was not created properly");
+    }
 
     const token = jwt.sign(
       {
