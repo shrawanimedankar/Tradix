@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dashboard from "./Dashboard";
 import TopBar from "./TopBar";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -18,7 +19,7 @@ const Home = () => {
 
     const getUser = async () => {
       try {
-        const response = await fetch("http://localhost:8080/auth/me", {
+        const response = await fetch(`${API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +33,7 @@ const Home = () => {
           localStorage.removeItem("token");
           localStorage.removeItem("fullName");
 
-          window.location.href = "http://localhost:5173/login";
+          window.location.href = "https://tradix-fo5h.onrender.com/login";
         }
       } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ const Home = () => {
     if (token) {
       getUser();
     } else {
-      window.location.href = "http://localhost:5173/login";
+      window.location.href = "https://tradix-fo5h.onrender.com/login";
     }
   }, []);
 

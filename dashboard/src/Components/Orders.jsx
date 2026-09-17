@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import GeneralContext from "./GeneralContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
@@ -10,7 +11,7 @@ const Orders = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:8080/orders/", {
+      .get(`${API_URL}/orders/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

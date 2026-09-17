@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Profile = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -29,7 +30,7 @@ const Profile = ({ user }) => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:8080/auth/profile", {
+      const response = await fetch(`${API_URL}/auth/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -79,20 +80,17 @@ const Profile = ({ user }) => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        "http://localhost:8080/auth/change-password",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            currentPassword,
-            newPassword,
-          }),
+      const response = await fetch(`${API_URL}/auth/change-password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
 
       const result = await response.json();
 
@@ -120,7 +118,6 @@ const Profile = ({ user }) => {
   return (
     <div className="w-full min-h-screen px-3 py-5 sm:px-5 sm:py-6 md:px-6">
       <div className="w-full max-w-2xl mx-auto bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-7">
-        
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
@@ -136,7 +133,6 @@ const Profile = ({ user }) => {
         </div>
 
         <div className="space-y-5">
-          
           {/* Full Name */}
           <div>
             <label className="block text-sm text-gray-500 mb-1">
@@ -154,9 +150,7 @@ const Profile = ({ user }) => {
 
           {/* Email */}
           <div>
-            <label className="block text-sm text-gray-500 mb-1">
-              Email
-            </label>
+            <label className="block text-sm text-gray-500 mb-1">Email</label>
 
             <input
               type="email"
@@ -187,9 +181,7 @@ const Profile = ({ user }) => {
 
           {/* Security */}
           <div className="mt-8 pt-6 border-t border-gray-200">
-            <h2 className="text-lg sm:text-xl font-semibold mb-4">
-              Security
-            </h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-4">Security</h2>
 
             <button
               onClick={() => setShowPasswordForm(!showPasswordForm)}
@@ -200,7 +192,6 @@ const Profile = ({ user }) => {
 
             {showPasswordForm && (
               <div className="mt-5 space-y-4">
-                
                 {/* Current Password */}
                 <input
                   type="password"
@@ -234,9 +225,7 @@ const Profile = ({ user }) => {
                   disabled={passwordLoading}
                   className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
                 >
-                  {passwordLoading
-                    ? "Updating..."
-                    : "Update Password"}
+                  {passwordLoading ? "Updating..." : "Update Password"}
                 </button>
               </div>
             )}

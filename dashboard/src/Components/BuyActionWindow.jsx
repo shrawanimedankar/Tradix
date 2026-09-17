@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import GeneralContext from "./GeneralContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const BuyActionWindow = ({ uid }) => {
   const context = useContext(GeneralContext);
@@ -27,7 +28,7 @@ const BuyActionWindow = ({ uid }) => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:8080/orders/new",
+        `${API_URL}/orders/new`,
         {
           name: uid,
           qty: stockQuantity,

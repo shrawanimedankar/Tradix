@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import GeneralContext from "./GeneralContext";
 import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
@@ -11,7 +12,7 @@ const Holdings = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:8080/holdings", {
+    .get(`${API_URL}/holdings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

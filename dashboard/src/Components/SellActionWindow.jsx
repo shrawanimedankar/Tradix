@@ -8,6 +8,7 @@ const SellActionWindow = ({ uid, product: selectedProduct }) => {
   const [product, setProduct] = useState(selectedProduct || "CNC");
   const [error, setError] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     setProduct(selectedProduct || "CNC");
@@ -29,7 +30,7 @@ const SellActionWindow = ({ uid, product: selectedProduct }) => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:8080/orders/new",
+        `${API_URL}/orders/new`,
         {
           name: uid,
           qty: stockQuantity,

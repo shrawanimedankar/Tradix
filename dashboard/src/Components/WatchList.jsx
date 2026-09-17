@@ -3,6 +3,7 @@ import axios from "axios";
 import GeneralContext from "./GeneralContext";
 import { Tooltip } from "@mui/material";
 import { watchlist as availableStocks } from "../data/data";
+const API_URL = import.meta.env.VITE_API_URL;
 
 import {
   BarChartOutlined,
@@ -21,7 +22,7 @@ const WatchList = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:8080/watchlist", {
+      .get(`${API_URL}/watchlist`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +75,7 @@ const WatchList = () => {
 
     axios
       .post(
-        "http://localhost:8080/watchlist/add",
+       `${API_URL}/watchlist/add`,
         {
           name: stock.name,
           price: stock.price,
@@ -100,7 +101,7 @@ const WatchList = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .delete(`http://localhost:8080/watchlist/remove/${stockName}`, {
+      .delete(`${API_URL}/watchlist/remove/${stockName}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

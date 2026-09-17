@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import signupSchema from "./signupSchema";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Signup() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ function Signup() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8080/auth/signup", {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -40,7 +41,7 @@ function Signup() {
       if (result.success) {
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("fullName", result.data.fullName);
-        window.location.href = `http://localhost:5174/?token=${result.data.token}`;
+       window.location.href = `https://tradix-dashboard.onrender.com/?token=${result.data.token}`;
       }
     } catch (error) {
       console.log(error);
@@ -129,11 +130,11 @@ function Signup() {
               className="mt-1"
             />
             <p>
-              I agree to the {" "}
+              I agree to the{" "}
               <span className="text-purple-600 cursor-pointer">
-                Terms & Conditions {" "}
+                Terms & Conditions{" "}
               </span>
-              and {" "}
+              and{" "}
               <span className="text-purple-600 cursor-pointer">
                 Privacy Policy
               </span>
@@ -153,7 +154,7 @@ function Signup() {
           </button>
         </form>
         <p className="text-center text-lg text-gray-600 mt-6">
-          Already have an account? {" "}
+          Already have an account?{" "}
           <span
             onClick={() => navigate("/login")}
             className="text-purple-600 font-bold cursor-pointer"

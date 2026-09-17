@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import GeneralContext from "./GeneralContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Funds = () => {
   const [funds, setFunds] = useState(null);
@@ -12,11 +13,12 @@ const Funds = () => {
   const [withdrawError, setWithdrawError] = useState("");
   const generalContext = useContext(GeneralContext);
 
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:8080/funds", {
+      .get(`${API_URL}/funds`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,7 +36,7 @@ const Funds = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:8080/funds/add",
+        `${API_URL}/funds/add`,
         {
           amount: Number(amount),
         },
@@ -61,7 +63,7 @@ const Funds = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:8080/funds/withdraw",
+        `${API_URL}/funds/add`,
         {
           amount: Number(withdrawAmount),
         },

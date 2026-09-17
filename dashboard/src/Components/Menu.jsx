@@ -40,7 +40,7 @@ const Menu = ({ user }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("fullName");
-    window.location.href = "http://localhost:5173/";
+    window.location.href = "https://tradix-fo5h.onrender.com/";
   };
 
   const menuClass =

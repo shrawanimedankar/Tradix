@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import GeneralContext from "./GeneralContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Positions = () => {
   const [allPositions, setAllPositions] = useState([]);
@@ -10,7 +11,7 @@ const Positions = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:8080/positions", {
+      .get(`${API_URL}/positions`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +39,6 @@ const Positions = () => {
           {/* DESKTOP TABLE */}
           <div className="hidden md:block w-full overflow-x-auto">
             <div className="[&_table]:w-full [&_table]:border-collapse [&_tr]:border-t [&_tr]:border-b [&_tr]:border-[#373737] [&_th]:text-center [&_th]:py-[15px] [&_th]:px-[6px] [&_th]:text-[#373737] [&_th]:font-medium [&_th]:text-[1rem] [&_th]:tracking-[0.05rem] [&_th]:bg-[rgba(255,255,255,0.434)] [&_td]:py-[10px] [&_td]:px-[7px] [&_td]:text-center [&_td]:font-normal [&_td]:text-[0.9rem] [&_td]:text-[#373737] [&_td]:tracking-[0.05rem] [&_th:first-child]:text-left [&_td:first-child]:text-left [&_td:last-child]:text-[0.8rem]">
-
               <table>
                 <thead>
                   <tr>
@@ -56,8 +56,7 @@ const Positions = () => {
                 <tbody>
                   {allPositions.map((stock) => {
                     const curValue = stock.price * stock.qty;
-                    const isProfit =
-                      curValue - stock.avg * stock.qty >= 0.0;
+                    const isProfit = curValue - stock.avg * stock.qty >= 0.0;
 
                     const profClass = isProfit ? "profit" : "loss";
                     const dayClass = stock.isLoss ? "loss" : "profit";
@@ -109,18 +108,15 @@ const Positions = () => {
                   })}
                 </tbody>
               </table>
-
             </div>
           </div>
 
           {/* MOBILE CARDS */}
           <div className="block md:hidden w-full space-y-[15px]">
-
             {allPositions.map((stock) => {
               const curValue = stock.price * stock.qty;
 
-              const isProfit =
-                curValue - stock.avg * stock.qty >= 0.0;
+              const isProfit = curValue - stock.avg * stock.qty >= 0.0;
 
               const dayClass = stock.isLoss ? "loss" : "profit";
 
@@ -131,7 +127,6 @@ const Positions = () => {
                 >
                   {/* Product + Instrument + Sell */}
                   <div className="flex items-center justify-between gap-[10px] pb-[10px] mb-[12px] border-b border-[#ddd]">
-
                     <div className="min-w-0">
                       <p className="text-[0.7rem] text-[#999]">
                         {stock.product}
@@ -158,47 +153,36 @@ const Positions = () => {
 
                   {/* Position Details */}
                   <div className="grid grid-cols-2 gap-x-[15px] gap-y-[15px]">
-
                     <div>
-                      <p className="text-[0.7rem] text-[#999]">
-                        Qty.
-                      </p>
+                      <p className="text-[0.7rem] text-[#999]">Qty.</p>
                       <p className="text-[0.9rem] font-medium text-[#373737]">
                         {stock.qty}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[0.7rem] text-[#999]">
-                        Avg.
-                      </p>
+                      <p className="text-[0.7rem] text-[#999]">Avg.</p>
                       <p className="text-[0.9rem] font-medium text-[#373737]">
                         ₹{stock.avg.toFixed(2)}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[0.7rem] text-[#999]">
-                        LTP
-                      </p>
+                      <p className="text-[0.7rem] text-[#999]">LTP</p>
                       <p className="text-[0.9rem] font-medium text-[#373737]">
                         ₹{stock.price.toFixed(2)}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[0.7rem] text-[#999]">
-                        Current value
-                      </p>
+                      <p className="text-[0.7rem] text-[#999]">Current value</p>
                       <p className="text-[0.9rem] font-medium text-[#373737]">
                         ₹{curValue.toFixed(2)}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[0.7rem] text-[#999]">
-                        P&L
-                      </p>
+                      <p className="text-[0.7rem] text-[#999]">P&L</p>
 
                       <p
                         className={
@@ -212,9 +196,7 @@ const Positions = () => {
                     </div>
 
                     <div>
-                      <p className="text-[0.7rem] text-[#999]">
-                        Chg.
-                      </p>
+                      <p className="text-[0.7rem] text-[#999]">Chg.</p>
 
                       <p
                         className={
@@ -226,12 +208,10 @@ const Positions = () => {
                         {stock.day}
                       </p>
                     </div>
-
                   </div>
                 </div>
               );
             })}
-
           </div>
         </>
       )}

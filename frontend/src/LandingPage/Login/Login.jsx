@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema from "./loginSchema";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function Login() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +39,7 @@ function Login() {
       if (result.success) {
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("fullName", result.data.fullName);
-        window.location.href = `http://localhost:5174/?token=${result.data.token}`;
+       window.location.href = `https://tradix-dashboard.onrender.com/?token=${result.data.token}`;
       }
     } catch (error) {
       console.log(error);
