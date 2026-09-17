@@ -19,7 +19,9 @@ function Hero() {
             and more with Tradix.
           </p>
 
-          <button className="cutom-button mt-2">Sign up for free</button>
+          <Link to="/signup">
+            <button className="cutom-button">Sign up for free</button>
+          </Link>
         </div>
       </div>
     </div>

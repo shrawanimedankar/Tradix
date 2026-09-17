@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import Dashboard from "./Dashboard";
 import TopBar from "./TopBar";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlToken = urlParams.get("token");
-
-    if (urlToken) {
-      localStorage.setItem("token", urlToken);
-      window.history.replaceState({}, document.title, "/");
-    }
-
-    const token = localStorage.getItem("token");
-
     const getUser = async () => {
       try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get("token");
+
+        if (urlToken) {
+          localStorage.setItem("token", urlToken);
+
+          // Remove token from URL
+          window.history.replaceState({}, document.title, "/");
+        }
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          window.location.href = "https://tradix-platform.onrender.com/login";
+          return;
+        }
+
         const response = await fetch(`${API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -26,26 +35,36 @@ const Home = () => {
         });
 
         const result = await response.json();
-        console.log(result);
+
+        console.log("USER RESPONSE:", result);
+
         if (result.success) {
           setUser(result.data);
-        } else if (result.status_code === 401) {
+        } else {
           localStorage.removeItem("token");
           localStorage.removeItem("fullName");
 
-          window.location.href = "https://tradix-platform.onrender.com/login";
+          window.location.href =
+            "https://tradix-platform.onrender.com/login";
         }
       } catch (error) {
-        console.log(error);
+        console.log("AUTH ERROR:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (token) {
-      getUser();
-    } else {
-      window.location.href = "https://tradix-platform.onrender.com/login";
-    }
+    getUser();
   }, []);
+
+  // Wait until user authentication is completed
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>

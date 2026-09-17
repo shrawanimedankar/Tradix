@@ -23,39 +23,18 @@ const WatchList = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    const fetchWatchlist = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/watchlist`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log("WATCHLIST RESPONSE:", res.data);
-        console.log("WATCHLIST DATA:", res.data.data);
-
-        if (res.data.data && res.data.data.length > 0) {
-          setUserWatchlist(res.data.data);
-        } else {
-          // Try once more after a short delay
-          setTimeout(async () => {
-            const retryRes = await axios.get(`${API_URL}/watchlist`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-
-            console.log("WATCHLIST RETRY:", retryRes.data);
-
-            setUserWatchlist(retryRes.data.data || []);
-          }, 500);
-        }
-      } catch (err) {
-        console.log("WATCHLIST ERROR:", err);
-      }
-    };
-
-    fetchWatchlist();
+    axios
+      .get(`${API_URL}/watchlist`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUserWatchlist(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const data = {
