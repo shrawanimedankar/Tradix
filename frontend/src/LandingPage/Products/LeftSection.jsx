@@ -17,7 +17,7 @@ function LeftSection({
 
         {/* Content */}
         <div className="order-1 md:order-2 p-5 md:mt-2">
-          <h1 className="text-3xl font-semibold text-[#2e0063] mb-1">
+          <h1 className="text-2xl font-semibold text-[#2e0063] mb-1">
             {productName}
           </h1>
 

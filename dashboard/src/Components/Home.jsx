@@ -36,8 +36,6 @@ const Home = () => {
 
         const result = await response.json();
 
-        console.log("USER RESPONSE:", result);
-
         if (result.success) {
           setUser(result.data);
         } else {

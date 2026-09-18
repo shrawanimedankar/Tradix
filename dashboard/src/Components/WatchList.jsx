@@ -15,7 +15,6 @@ import {
 import { DoughnutChart } from "./DoughnutChart";
 
 const WatchList = () => {
-  console.log("WATCHLIST COMPONENT RENDERED");
 
   const [search, setSearch] = useState("");
   const [userWatchlist, setUserWatchlist] = useState([]);

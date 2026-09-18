@@ -22,8 +22,8 @@ function Charges() {
       <div className="mt-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 text-center ">
           <div className="p-5 custom-card">
-            <h1 className="mb-3 text-[#2d0061be] text-4xl font-semibold">₹0</h1>
-            <h2 className="mb-1 text-2xl font-semibold text-[#170031]">
+            <h1 className="mb-3 text-[#2d0061be] text-3xl font-semibold">₹0</h1>
+            <h2 className="mb-1 text-xl font-semibold text-[#170031]">
               Equity Delivery
             </h2>
             <p className="text-base">
@@ -32,10 +32,10 @@ function Charges() {
             </p>
           </div>
           <div className="p-5 custom-card">
-            <h1 className="mb-3 text-[#2d0061be] text-4xl font-semibold">
+            <h1 className="mb-3 text-[#2d0061be] text-3xl font-semibold">
               ₹20 / order
             </h1>
-            <h2 className="mb-1 text-2xl font-semibold text-[#170031]">
+            <h2 className="mb-1 text-xl font-semibold text-[#170031]">
               Intraday
             </h2>
             <p className="text-base">
@@ -43,10 +43,10 @@ function Charges() {
             </p>
           </div>
           <div className="p-5 custom-card">
-            <h1 className="mb-3 text-[#2d0061be] text-4xl font-semibold">
+            <h1 className="mb-3 text-[#2d0061be] text-3xl font-semibold">
               ₹20 / order
             </h1>
-            <h2 className="mb-1 text-2xl font-semibold text-[#170031]">
+            <h2 className="mb-1 text-xl font-semibold text-[#170031]">
               Futures
             </h2>
             <p className="text-base">
@@ -54,10 +54,10 @@ function Charges() {
             </p>
           </div>
           <div className="p-5 custom-card">
-            <h1 className="mb-3 text-[#2d0061be] text-4xl font-semibold">
+            <h1 className="mb-3 text-[#2d0061be] text-3xl font-semibold">
               ₹20 / order
             </h1>
-            <h2 className="mb-1 text-2xl font-semibold text-[#170031]">
+            <h2 className="mb-1 text-xl font-semibold text-[#170031]">
               Options
             </h2>
             <p className="text-base">

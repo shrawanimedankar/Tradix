@@ -20,10 +20,13 @@ function Footer() {
               All rights reserved.
             </p>
           </div>
+
           {/* Company */}
+
           <div>
             <p className="font-semibold mb-4 text-white">Company</p>
-            <div className="flex flex-col gap-2">
+
+            <div className="flex flex-row gap-6">
               <Link
                 to="/about"
                 className="text-gray-300 no-underline hover:text-[#16A34A]"
@@ -37,12 +40,14 @@ function Footer() {
               >
                 Products
               </Link>
+
               <Link
                 to="/pricing"
                 className="text-gray-300 no-underline hover:text-[#16A34A]"
               >
                 Pricing
               </Link>
+
               <Link
                 to="/support"
                 className="text-gray-300 no-underline hover:text-[#16A34A]"

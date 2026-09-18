@@ -15,13 +15,13 @@ function Hero() {
             Your world of trading & investing
           </h1>
 
-          <p className="text-[9px] sm:text-xs md:text-sm  bg-white/80 px-1 mt-1 text-black">
+          <p className="text-[7px] sm:text-xs md:text-sm  bg-white/80 px-1 mt-1 text-black">
             Invest and trade in stocks, mutual funds, ETFs, bonds, derivatives,
             and more with Tradix.
           </p>
 
           <Link to="/signup">
-            <button className="cutom-button">Sign up for free</button>
+            <button className="cutom-button mt-2">Sign up for free</button>
           </Link>
         </div>
       </div>

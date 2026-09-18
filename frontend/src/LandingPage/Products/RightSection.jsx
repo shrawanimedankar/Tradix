@@ -12,7 +12,7 @@ function RightSection({
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
         {/* Content */}
         <div className="order-1 p-5 md:mt-2">
-          <h1 className="text-3xl font-semibold text-[#2e0063] mb-1">
+          <h1 className="text-2xl font-semibold text-[#2e0063] mb-1">
             {productName}
           </h1>
 

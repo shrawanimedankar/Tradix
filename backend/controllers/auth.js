@@ -84,8 +84,6 @@ const signup = async (req, res) => {
       })),
     );
 
-    console.log("DEFAULT WATCHLIST CREATED:", createdWatchlist.length);
-
     if (createdWatchlist.length !== 5) {
       throw new Error("Default watchlist was not created properly");
     }
