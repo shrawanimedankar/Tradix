@@ -30,8 +30,8 @@ const newOrder = async (req, res) => {
   const { name, qty, price, mode, product } = req.body;
 
   try {
-
-     if (!Number.isInteger(qty) || qty < 1) {
+    // Validate quantity
+    if (!Number.isInteger(qty) || qty < 1) {
       return sendResponse(res, {
         success: false,
         status_code: 400,
@@ -65,7 +65,54 @@ const newOrder = async (req, res) => {
         message: "Invalid product type",
       });
     }
-    
+
+    const allowedStocks = [
+      "INFY",
+      "TCS",
+      "WIPRO",
+      "M&M",
+      "RELIANCE",
+      "HDFCBANK",
+      "ICICIBANK",
+      "BHARTIARTL",
+      "TATAMOTORS",
+      "MARUTI",
+      "HCLTECH",
+      "AXISBANK",
+      "BAJFINANCE",
+      "TITAN",
+      "PERSISTENT",
+      "COFORGE",
+      "KOTAKBANK",
+      "SBILIFE",
+      "SBIN",
+      "HINDUNILVR",
+      "ITC",
+      "LT",
+      "SUNPHARMA",
+      "ADANIENT",
+      "ADANIPORTS",
+      "TATASTEEL",
+      "TECHM",
+      "ULTRACEMCO",
+      "ASIANPAINT",
+      "NTPC",
+      "POWERGRID",
+      "JSWSTEEL",
+      "HINDALCO",
+      "ONGC",
+      "COALINDIA",
+      "EICHERMOT",
+      "BAJAJFINSV",
+    ];
+    if (!allowedStocks.includes(name)) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Invalid stock name",
+      });
+    }
+
     const funds = await FundsModel.findOne({
       user: req.user.userId,
     });
