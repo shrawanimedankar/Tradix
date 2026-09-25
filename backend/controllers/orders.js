@@ -30,6 +30,42 @@ const newOrder = async (req, res) => {
   const { name, qty, price, mode, product } = req.body;
 
   try {
+
+     if (!Number.isInteger(qty) || qty < 1) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Quantity must be a positive whole number",
+      });
+    }
+
+    // Validate price
+    if (typeof price !== "number" || price <= 0) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Price must be greater than 0",
+      });
+    }
+
+    // Validate mode
+    if (!["BUY", "SELL"].includes(mode)) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Invalid order mode",
+      });
+    }
+
+    // Validate product
+    if (!["CNC", "MIS"].includes(product)) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Invalid product type",
+      });
+    }
+    
     const funds = await FundsModel.findOne({
       user: req.user.userId,
     });
