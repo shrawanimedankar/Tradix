@@ -70,6 +70,15 @@ const newOrder = async (req, res) => {
   const { name, qty, mode, product } = req.body;
 
   try {
+    //Empty Order
+    if (!name || qty === undefined || !mode || !product) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "All order fields are required",
+      });
+    }
+
     // Validate quantity
     if (!Number.isInteger(qty) || qty < 1) {
       return sendResponse(res, {
