@@ -4,6 +4,46 @@ const { PositionsModel } = require("../model/Positions");
 const { FundsModel } = require("../model/Funds");
 const { sendResponse } = require("../utils/sendResponse");
 
+const stockPrices = {
+  INFY: 1555.45,
+  TCS: 3194.8,
+  WIPRO: 577.75,
+  "M&M": 779.8,
+  RELIANCE: 2112.4,
+  HDFCBANK: 1745.2,
+  ICICIBANK: 1298.6,
+  BHARTIARTL: 1842.3,
+  TATAMOTORS: 728.45,
+  MARUTI: 12450.75,
+  HCLTECH: 1542.8,
+  AXISBANK: 1198.4,
+  BAJFINANCE: 9450.6,
+  TITAN: 3655.25,
+  PERSISTENT: 5820.3,
+  COFORGE: 2145.7,
+  KOTAKBANK: 1985.45,
+  SBILIFE: 1682.9,
+  SBIN: 845.6,
+  HINDUNILVR: 2585.4,
+  ITC: 412.75,
+  LT: 3745.8,
+  SUNPHARMA: 1842.65,
+  ADANIENT: 2468.3,
+  ADANIPORTS: 1398.5,
+  TATASTEEL: 168.45,
+  TECHM: 1685.2,
+  ULTRACEMCO: 11245.6,
+  ASIANPAINT: 2485.75,
+  NTPC: 342.8,
+  POWERGRID: 356.25,
+  JSWSTEEL: 1085.4,
+  HINDALCO: 725.65,
+  ONGC: 282.45,
+  COALINDIA: 465.8,
+  EICHERMOT: 5485.3,
+  BAJAJFINSV: 1965.75,
+};
+
 const getAllOrders = async (req, res) => {
   try {
     const allOrders = await OrdersModel.find({ user: req.user.userId });
@@ -27,7 +67,7 @@ const getAllOrders = async (req, res) => {
 };
 
 const newOrder = async (req, res) => {
-  const { name, qty, price, mode, product } = req.body;
+  const { name, qty, mode, product } = req.body;
 
   try {
     // Validate quantity
@@ -63,6 +103,16 @@ const newOrder = async (req, res) => {
         success: false,
         status_code: 400,
         message: "Invalid product type",
+      });
+    }
+
+    const price = stockPrices[name];
+
+    if (!price) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Invalid stock name",
       });
     }
 
