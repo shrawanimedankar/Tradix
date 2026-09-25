@@ -79,15 +79,6 @@ const newOrder = async (req, res) => {
       });
     }
 
-    // Validate price
-    if (typeof price !== "number" || price <= 0) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 400,
-        message: "Price must be greater than 0",
-      });
-    }
-
     // Validate mode
     if (!["BUY", "SELL"].includes(mode)) {
       return sendResponse(res, {
@@ -106,56 +97,9 @@ const newOrder = async (req, res) => {
       });
     }
 
+    // Get price from backend
     const price = stockPrices[name];
-
     if (!price) {
-      return sendResponse(res, {
-        success: false,
-        status_code: 400,
-        message: "Invalid stock name",
-      });
-    }
-
-    const allowedStocks = [
-      "INFY",
-      "TCS",
-      "WIPRO",
-      "M&M",
-      "RELIANCE",
-      "HDFCBANK",
-      "ICICIBANK",
-      "BHARTIARTL",
-      "TATAMOTORS",
-      "MARUTI",
-      "HCLTECH",
-      "AXISBANK",
-      "BAJFINANCE",
-      "TITAN",
-      "PERSISTENT",
-      "COFORGE",
-      "KOTAKBANK",
-      "SBILIFE",
-      "SBIN",
-      "HINDUNILVR",
-      "ITC",
-      "LT",
-      "SUNPHARMA",
-      "ADANIENT",
-      "ADANIPORTS",
-      "TATASTEEL",
-      "TECHM",
-      "ULTRACEMCO",
-      "ASIANPAINT",
-      "NTPC",
-      "POWERGRID",
-      "JSWSTEEL",
-      "HINDALCO",
-      "ONGC",
-      "COALINDIA",
-      "EICHERMOT",
-      "BAJAJFINSV",
-    ];
-    if (!allowedStocks.includes(name)) {
       return sendResponse(res, {
         success: false,
         status_code: 400,
