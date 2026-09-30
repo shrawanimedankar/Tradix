@@ -119,6 +119,13 @@ const newOrder = async (req, res) => {
     const funds = await FundsModel.findOne({
       user: req.user.userId,
     });
+    if (!funds) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 404,
+        message: "Funds account not found",
+      });
+    }
     const totalAmount = price * qty;
 
     // BUY

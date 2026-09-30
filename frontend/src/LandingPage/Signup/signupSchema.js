@@ -5,7 +5,8 @@ const signupSchema = z.object({
 
     email: z.string().min(1, "Email is required").email("enter a valid email"),
 
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z.string().min(6, "Password must be at least 6 characters").max(30, "Password must not exceed 30 characters"),
+    
     confirmPassword: z.string().min(1, "Please confirm your password"),
 
     termsAccepted: z.boolean().refine((value) => value === true, {

@@ -1,6 +1,46 @@
 const { WatchlistModel } = require("../model/Watchlist");
 const { sendResponse } = require("../utils/sendResponse");
 
+const availableStocks = [
+  "INFY",
+  "TCS",
+  "WIPRO",
+  "M&M",
+  "RELIANCE",
+  "HDFCBANK",
+  "ICICIBANK",
+  "BHARTIARTL",
+  "TATAMOTORS",
+  "MARUTI",
+  "HCLTECH",
+  "AXISBANK",
+  "BAJFINANCE",
+  "TITAN",
+  "PERSISTENT",
+  "COFORGE",
+  "KOTAKBANK",
+  "SBILIFE",
+  "SBIN",
+  "HINDUNILVR",
+  "ITC",
+  "LT",
+  "SUNPHARMA",
+  "ADANIENT",
+  "ADANIPORTS",
+  "TATASTEEL",
+  "TECHM",
+  "ULTRACEMCO",
+  "ASIANPAINT",
+  "NTPC",
+  "POWERGRID",
+  "JSWSTEEL",
+  "HINDALCO",
+  "ONGC",
+  "COALINDIA",
+  "EICHERMOT",
+  "BAJAJFINSV"
+];
+
 const getWatchlist = async (req, res) => {
   try {
     const watchlist = await WatchlistModel.find({
@@ -27,6 +67,15 @@ const addToWatchlist = async (req, res) => {
   try {
     const { name, price, isDown, percent } = req.body;
 
+    // Check if stock exists
+    if (!availableStocks.includes(name)) {
+      return sendResponse(res, {
+        success: false,
+        status_code: 400,
+        message: "Stock not found",
+      });
+    }
+    
     const existingStock = await WatchlistModel.findOne({
       user: req.user.userId,
       name,
