@@ -65,7 +65,7 @@ const getWatchlist = async (req, res) => {
 
 const addToWatchlist = async (req, res) => {
   try {
-    const { name, price, isDown, percent } = req.body;
+    const { name} = req.body;
 
     // Check if stock exists
     if (!availableStocks.includes(name)) {
@@ -92,9 +92,6 @@ const addToWatchlist = async (req, res) => {
     const stock = await WatchlistModel.create({
       user: req.user.userId,
       name,
-      price,
-      isDown,
-      percent,
     });
 
     return sendResponse(res, {
