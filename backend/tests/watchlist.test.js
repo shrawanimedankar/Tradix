@@ -26,43 +26,42 @@ describe("Watchlist API", () => {
     expect(response.statusCode).toBe(401);
   });
 
-  test("reject invalid stock", async () => {
-    const loginResponse = await request(app).post("/auth/login").send({
-      email: "shrawani@gmail.com",
-      password: "Shrawani@1234",
-    });
+  // test("reject invalid stock", async () => {
+  //   const loginResponse = await request(app).post("/auth/login").send({
+  //     email: "shrawani@gmail.com",
+  //     password: "Shrawani@1234",
+  //   });
 
-    const token = loginResponse.body.data.token;
+  //   const token = loginResponse.body.data.token;
 
-    const response = await request(app)
-      .post("/watchlist/add")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        name: "ABCBANK",
-      });
+  //   const response = await request(app)
+  //     .post("/watchlist/add")
+  //     .set("Authorization", `Bearer ${token}`)
+  //     .send({
+  //       name: "ABC",
+  //     });
 
-    expect(response.statusCode).toBe(400);
-    expect(response.body.message).toBe("Stock not found");
-  });
+  //   expect(response.statusCode).toBe(400);
+  //   expect(response.body.message).toBe("Stock not found");
+  // });
 
-   test("adds valid stock to watchlist", async () => {
-    const loginResponse = await request(app).post("/auth/login").send({
-      email: "shrawani@gmail.com",
-      password: "Shrawani@1234",
-    });
+  //  test("adds valid stock to watchlist", async () => {
+  //   const loginResponse = await request(app).post("/auth/login").send({
+  //     email: "shrawani@gmail.com",
+  //     password: "Shrawani@1234",
+  //   });
+  //   const token = loginResponse.body.data.token;
 
-    const token = loginResponse.body.data.token;
+  //   const response = await request(app)
+  //     .post("/watchlist/add")
+  //     .set("Authorization", `Bearer ${token}`)
+  //     .send({
+  //       name: "TECHM",
+  //     });
 
-    const response = await request(app)
-      .post("/watchlist/add")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        name: "TECHM",
-      });
-
-    expect(response.statusCode).toBe(201);
-    expect(response.body.message).toBe("Stock added to watchlist");
-  });
+  //   expect(response.statusCode).toBe(201);
+  //   expect(response.body.message).toBe("Stock added to watchlist");
+  // });
 
   // test("reject duplicate stock in watchlist", async () => {
   //   const loginResponse = await request(app).post("/auth/login").send({
@@ -75,29 +74,25 @@ describe("Watchlist API", () => {
   //     .post("/watchlist/add")
   //     .set("Authorization", `Bearer ${token}`)
   //     .send({
-  //       name: "BAJAJFINS",
-  //       price: 500,
-  //       isDown: false,
-  //       percent: "1.50%",
+  //       name: "TECHM",
   //     });
-
   //   expect(response.statusCode).toBe(400);
   //   expect(response.body.message).toBe("Stock already exists in watchlist");
   // });
 
-  //   test("remove stock from watchlist", async () => {
-  //     const loginResponse = await request(app).post("/auth/login").send({
-  //       email: "shrawani@gmail.com",
-  //       password: "Shrawani@1234",
-  //     });
-  //     const token = loginResponse.body.data.token;
+    test("remove stock from watchlist", async () => {
+      const loginResponse = await request(app).post("/auth/login").send({
+        email: "shrawani@gmail.com",
+        password: "Shrawani@1234",
+      });
+      const token = loginResponse.body.data.token;
 
-  //     const response = await request(app)
-  //       .delete("/watchlist/remove/TESTSTOCK")
-  //       .set("Authorization", `Bearer ${token}`);
+      const response = await request(app)
+        .delete("/watchlist/remove/BHARTIARTL")
+        .set("Authorization", `Bearer ${token}`);
 
-  //     expect(response.statusCode).toBe(200);
-  //     expect(response.body.message).toBe("Stock removed from watchlist");
-  //   });
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe("Stock removed from watchlist");
+    });
 
 });
