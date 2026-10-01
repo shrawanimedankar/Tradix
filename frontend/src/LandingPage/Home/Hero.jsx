@@ -6,7 +6,7 @@ function Hero() {
     <div className="w-full">
       <div className="relative w-full h-screen overflow-hidden">
         <img
-          src="/media/images/homeHero.png"
+          src="/media/images/homeHero.jpeg"
           alt="Hero Image"
           className="w-full h-full object-cover"
         />

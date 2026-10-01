@@ -76,7 +76,7 @@ function Hero() {
 
       <div className="relative">
         <img
-          src="/media/images/about.png"
+          src="/media/images/about.jpeg"
           alt="Hero Image"
           className="w-full h-auto block"
         />
