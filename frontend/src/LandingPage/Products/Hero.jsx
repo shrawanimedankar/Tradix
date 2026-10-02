@@ -1,6 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
 function Hero() {
   return (
     <div className="container mx-auto  mb-0">

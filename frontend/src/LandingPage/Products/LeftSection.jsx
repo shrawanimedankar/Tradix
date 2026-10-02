@@ -1,10 +1,8 @@
-import React from "react";
-
 function LeftSection({
   imageURL,
   productName,
-  productDesription1,
-  productDesription2,
+  productDescription1,
+  productDescription2,
   features,
 }) {
   return (
@@ -21,10 +19,10 @@ function LeftSection({
             {productName}
           </h1>
 
-          <h2 className="text-gray-500 text-lg mb-2">{productDesription1}</h2>
+          <h2 className="text-gray-500 text-lg mb-2">{productDescription1}</h2>
 
           <p className="text-gray-500 text-sm leading-relaxed mb-5">
-            {productDesription2}
+            {productDescription2}
           </p>
 
           <div className="text-[#41008b] text-sm font-medium">{features}</div>
