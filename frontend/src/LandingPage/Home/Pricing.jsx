@@ -7,9 +7,7 @@ function Pricing() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
           {/* Left side */}
           <div>
-            <h1 className="mb-3 text-2xl font-semibold">
-              Unbeatable pricing
-            </h1>
+            <h1 className="mb-3 text-2xl font-semibold">Unbeatable pricing</h1>
 
             <p className="mb-4 leading-relaxed">
               We pioneered the concept of discount broking and price
@@ -18,10 +16,7 @@ function Pricing() {
 
             <Link to="/pricing" className="custom-link">
               See Pricing
-              <i
-                className="fa fa-long-arrow-right"
-                aria-hidden="true"
-              ></i>
+              <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
             </Link>
           </div>
 
