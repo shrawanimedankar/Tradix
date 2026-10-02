@@ -1,4 +1,3 @@
-import React from "react";
 import Hero from "./Hero";
 import Invest from "./Invest";
 import Awards from "./Awards";

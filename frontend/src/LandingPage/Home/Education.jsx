@@ -1,21 +1,19 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 function Education() {
   return (
     <div className="container mx-auto px-5 py-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Image */}
+      <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
         <div className="flex justify-center">
           <img
             src="/media/images/education.svg"
             className="w-full max-w-md md:w-[70%]"
-            alt="Education"
+            alt="Market education"
           />
         </div>
 
-        {/* Content */}
         <div>
-          <h1 className="mb-3 text-xl md:text-2xl font-semibold">
+          <h1 className="mb-3 text-xl font-semibold md:text-2xl">
             Free and open market education
           </h1>
 
@@ -24,32 +22,33 @@ function Education() {
             covering everything from the basics to advanced trading.
           </p>
 
-          <a
-            href="#"
-            className="custom-link"
-          >
+          <Link to="/varsity" className="custom-link">
             Varsity
-            <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
-          </a>
+            <i
+              className="fa fa-long-arrow-right"
+              aria-hidden="true"
+            ></i>
+          </Link>
 
-          <p className="mt-8 mb-3">
+          <p className="mb-3 mt-8">
             TradingQ&A, the most active trading and investment community in
             India for all your market related queries.
           </p>
 
-          <a
-            href="#"
-            className="custom-link"
-          >
+          <Link to="/trading-qa" className="custom-link">
             TradingQ&A
-            <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
-          </a>
+            <i
+              className="fa fa-long-arrow-right"
+              aria-hidden="true"
+            ></i>
+          </Link>
         </div>
       </div>
+
       <img
         src="/media/images/a.png"
         alt="Tradix ecosystem"
-        className="w-3/4 mx-auto mb-2 mt-10"
+        className="mx-auto mb-2 mt-10 w-3/4"
       />
     </div>
   );
