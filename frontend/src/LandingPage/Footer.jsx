@@ -1,19 +1,27 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+const footerLinks = [
+  { name: "About", path: "/about" },
+  { name: "Products", path: "/product" },
+  { name: "Pricing", path: "/pricing" },
+  { name: "Support", path: "/support" },
+];
 
 function Footer() {
   return (
     <footer className="bg-[#0f001e]">
-      <div className="container mx-auto px-5 py-10  mt-0">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-5 py-10">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Logo and Copyright */}
           <div>
             <Link to="/">
               <img
                 src="/media/images/logoName.png"
                 className="w-35"
-                alt="Logo"
+                alt="Tradix logo"
               />
             </Link>
+
             <p className="text-sm text-gray-300">
               &copy; 2026
               <br />
@@ -22,43 +30,25 @@ function Footer() {
           </div>
 
           {/* Company */}
-
           <div>
-            <p className="font-semibold mb-4 text-white">Company</p>
+            <p className="mb-4 font-semibold text-white">Company</p>
 
             <div className="flex flex-row gap-6">
-              <Link
-                to="/about"
-                className="text-gray-300 no-underline hover:text-[#16A34A]"
-              >
-                About
-              </Link>
-
-              <Link
-                to="/product"
-                className="text-gray-300 no-underline hover:text-[#16A34A]"
-              >
-                Products
-              </Link>
-
-              <Link
-                to="/pricing"
-                className="text-gray-300 no-underline hover:text-[#16A34A]"
-              >
-                Pricing
-              </Link>
-
-              <Link
-                to="/support"
-                className="text-gray-300 no-underline hover:text-[#16A34A]"
-              >
-                Support
-              </Link>
+              {footerLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="text-gray-300 no-underline hover:text-[#16A34A]"
+                >
+                  {link.name}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="mt-10 text-gray-300 text-xs leading-relaxed">
+        {/* Disclaimer */}
+        <div className="mt-10 text-xs leading-relaxed text-gray-300">
           <p>
             Tradix is a personal project created for educational and
             demonstration purposes. It is not a registered stockbroker,
@@ -66,12 +56,12 @@ function Footer() {
             trades, or financial transactions are processed through this
             website.
           </p>
+
           <p>
             Investing and trading in financial markets involves risk. The
             information presented on this website is for educational purposes
             only and should not be considered financial, investment, or trading
-            advice. Always conduct your own research before making financial
-            decisions.
+            advice.
           </p>
         </div>
       </div>
