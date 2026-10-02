@@ -15,7 +15,7 @@ function OpenAccount() {
             F&O trades.
           </p>
           <Link to="/signup">
-            <button className="cutom-button">Sign up Now</button>
+            <button className="custom-button">Sign up Now</button>
           </Link>
         </div>
       </div>

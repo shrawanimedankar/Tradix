@@ -9,26 +9,25 @@ import Pricing from "./LandingPage/Pricing/PricingPage.jsx";
 import Support from "./LandingPage/Support/SupportPage.jsx";
 import NotFound from "./LandingPage/NotFound.jsx";
 import ScrollToTop from "./LandingPage/ScrollToTop.jsx";
-import Login from "./LandingPage/Login/Login";
-
+import Login from "./LandingPage/Login/Login.jsx";
 
 function App() {
   return (
-  <BrowserRouter>
-  <ScrollToTop />
-  <Navbar/>
-    <Routes>
-      <Route path="/" element={<Home />}/>
-       <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />}/>
-      <Route path="/about" element={<About />}/>
-      <Route path="/product" element={<Product />}/>
-      <Route path="/pricing" element={<Pricing />}/>
-      <Route path="/support" element={<Support />}/>
-      <Route path="*" element={<NotFound />}/>
-    </Routes>
-    <Footer/>
-  </BrowserRouter>
-);
+    <BrowserRouter>
+      <ScrollToTop />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/product" element={<Product />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
 }
 export default App;

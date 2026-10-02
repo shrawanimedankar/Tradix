@@ -21,7 +21,7 @@ function Hero() {
           </p>
 
           <Link to="/signup">
-            <button className="cutom-button mt-2">Sign up for free</button>
+            <button className="custom-button mt-2">Sign up for free</button>
           </Link>
         </div>
       </div>

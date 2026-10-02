@@ -102,7 +102,7 @@ function Login() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full cutom-button transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full custom-button transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>

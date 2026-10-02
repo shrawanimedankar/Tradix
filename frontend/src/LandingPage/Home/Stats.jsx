@@ -64,25 +64,6 @@ function Stats() {
           alt="Tradix ecosystem"
           className="w-full mb-8"
         />
-
-        {/* Links */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 text-center">
-          <a
-            href="#"
-            className="custom-link"
-          >
-            Explore our products
-            <i className="fa fa-long-arrow-right ml-2" aria-hidden="true"></i>
-          </a>
-
-          <a
-            href="#"
-            className="custom-link"
-          >
-            Try Kite demo
-            <i className="fa fa-long-arrow-right ml-2" aria-hidden="true"></i>
-          </a>
-        </div>
       </div>
     </div>
   );

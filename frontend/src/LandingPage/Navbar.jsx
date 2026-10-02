@@ -1,86 +1,73 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+const navLinks = [
+  { name: "Signup", path: "/signup" },
+  { name: "About", path: "/about" },
+  { name: "Product", path: "/product" },
+  { name: "Pricing", path: "/pricing" },
+  { name: "Support", path: "/support" },
+];
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   return (
-      <nav className="sticky top-0 z-50 shadow-[0_2px_6px_rgba(0,0,0,0.9)] bg-gradient-to-r from-white via-[#af68ff] via-30% to-[#8cffb6]">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-white via-[#af68ff] via-30% to-[#8cffb6] shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
       <div className="container mx-auto px-5 py-3">
         {/* Navbar top */}
         <div className="flex items-center justify-between">
-          <Link to="/">
-            <img src="/media/images/logoName.png" className="w-35" alt="Logo" />
+          {/* Logo */}
+          <Link to="/" onClick={handleLinkClick}>
+            <img
+              src="/media/images/logoName.png"
+              className="w-35"
+              alt="Tradix logo"
+            />
           </Link>
+
           {/* Mobile menu button */}
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-black text-2xl"
+            type="button"
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="text-2xl text-black md:hidden"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
           >
-            ☰
+            {isOpen ? "✕" : "☰"}
           </button>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex gap-8">
-            <Link
-              to="/signup"
-              className="text-black font-bold text-lg no-underline hover:text-gray-600"
-            >
-              Signup
-            </Link>
-
-            <Link
-              to="/about"
-              className="text-black font-bold text-lg no-underline hover:text-gray-600"
-            >
-              About
-            </Link>
-
-            <Link
-              to="/product"
-              className="text-black font-bold text-lg no-underline hover:text-gray-600"
-            >
-              Product
-            </Link>
-
-            <Link
-              to="/pricing"
-              className="text-black font-bold text-lg no-underline hover:text-gray-600"
-            >
-              Pricing
-            </Link>
-
-            <Link
-              to="/support"
-              className="text-black font-bold text-lg no-underline hover:text-gray-600"
-            >
-              Support
-            </Link>
+          <div className="hidden gap-8 md:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="text-lg font-bold text-black no-underline hover:text-gray-600"
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden flex flex-col gap-4 mt-5 pb-3">
-            <Link to="/signup" className="text-black font-semibold text-lg no-underline">
-              Signup
-            </Link>
-
-            <Link to="/about" className="text-black font-semibold text-lg no-underline">
-              About
-            </Link>
-
-            <Link to="/product" className="text-black font-semibold text-lg no-underline">
-              Product
-            </Link>
-
-            <Link to="/pricing" className="text-black font-semibold text-lg no-underline">
-              Pricing
-            </Link>
-
-            <Link to="/support" className="text-black font-semibold text-lg no-underline">
-              Support
-            </Link>
+          <div className="mt-5 flex flex-col gap-4 pb-3 md:hidden">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={handleLinkClick}
+                className="text-lg font-semibold text-black no-underline hover:text-gray-600"
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
         )}
       </div>
