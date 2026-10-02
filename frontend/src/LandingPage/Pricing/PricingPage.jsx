@@ -1,4 +1,3 @@
-import React from "react";
 import Charges from "./Charges";
 import Brokerage from "./Brokerage";
 import FAQ from "./FAQ";

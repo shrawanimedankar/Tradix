@@ -1,5 +1,3 @@
-import React from "react";
-
 function OtherCharges() {
   const charges = [
     {
@@ -36,27 +34,20 @@ function OtherCharges() {
 
   return (
     <section className="container mx-auto px-5">
-      <div>
-        <h2 className="custom-heading">
-          Other charges
-        </h2>
+      <h2 className="custom-heading">Other charges</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {charges.map((charge, index) => (
-            <div
-              key={index}
-              className="custom-card"
-            >
-              <h3 className="text-xl font-semibold text-[#2e0063] mb-3">
-                {charge.title}
-              </h3>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {charges.map((charge, index) => (
+          <div key={index} className="custom-card">
+            <h3 className="mb-3 text-xl font-semibold text-[#2e0063]">
+              {charge.title}
+            </h3>
 
-              <p className="text-gray-500 text-sm leading-relaxed">
-                {charge.description}
-              </p>
-            </div>
-          ))}
-        </div>
+            <p className="text-sm leading-relaxed text-gray-500">
+              {charge.description}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
