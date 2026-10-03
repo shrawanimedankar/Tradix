@@ -29,13 +29,11 @@ function Support() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {quickLinks.map((link, index) => (
-            <div
-              key={index}
+            <div key={index}
               className="border border-[#7700ff2c] rounded-lg p-4 hover:shadow-md hover:border-[#6100d0] transition cursor-pointer"
             >
-              <p className="text-gray-700">{link}</p>
-
-              <span className="text-[#6100d0] text-sm">Learn more →</span>
+            <p className="text-gray-700">{link}</p>
+            <span className="text-[#6100d0] text-sm">Learn more →</span>
             </div>
           ))}
         </div>
@@ -106,7 +104,7 @@ function Support() {
             ],
           ].map((faq, index) => (
             <div key={index} className="border border-gray-200 rounded-lg">
-              <button
+              <button type="button"
                 onClick={() => setOpen(open === index ? null : index)}
                 className="w-full flex justify-between items-center text-left p-4 font-medium text-gray-800"
               >
